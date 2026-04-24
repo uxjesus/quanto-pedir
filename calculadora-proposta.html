@@ -1,0 +1,3346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quanto Pedir — Calculadora de Pretensão Salarial</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon-256.png" />
+
+  <!-- ── SEO & LLM Discovery ───────────────────────────── -->
+  <meta name="description" content="Calculadora gratuita de pretensão salarial. Descubra quanto pedir na negociação salarial, compare propostas de emprego e saiba se vale a pena trocar de emprego. Simples, rápido e baseado em como o mercado realmente negocia." />
+  <meta name="keywords" content="pretensão salarial, calculadora salarial, quanto pedir de salário, negociação salarial, vale a pena trocar de emprego, proposta de emprego, aumento de salário" />
+  <meta name="author" content="Erick Jesus" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph (WhatsApp, LinkedIn, Facebook) -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="Quanto Pedir — Calcule sua pretensão salarial" />
+  <meta property="og:description" content="Descubra quanto pedir de salário e se vale a pena aceitar uma proposta. Ferramenta gratuita, mobile-first e baseada em lógica real de mercado." />
+  <meta property="og:image"       content="https://raw.githubusercontent.com/erickcarjes/quanto-pedir/main/og-image.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url"         content="https://quantopedir.com.br" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:locale"      content="pt_BR" />
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Quanto Pedir — Calcule sua pretensão salarial" />
+  <meta name="twitter:description" content="Descubra quanto pedir de salário e se vale a pena aceitar uma proposta." />
+  <meta name="twitter:image"       content="https://raw.githubusercontent.com/erickcarjes/quanto-pedir/main/og-image.png" />
+  <meta property="og:locale"      content="pt_BR" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="Calculadora de Pretensão Salarial" />
+  <meta name="twitter:description" content="Descubra quanto pedir de salário e se vale a pena aceitar uma proposta." />
+
+  <!-- Schema.org — WebApplication (lido por IAs e motores de busca) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Calculadora de Pretensão Salarial",
+    "description": "Ferramenta gratuita para calcular pretensão salarial, comparar propostas de emprego e descobrir se vale a pena trocar de trabalho. Considera salário base, benefícios, VR, VA, PLR e bônus.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web, iOS, Android",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+    "author": {
+      "@type": "Person",
+      "name": "Erick Jesus",
+      "url": "https://www.linkedin.com/in/erickjesus/"
+    },
+    "featureList": [
+      "Cálculo de pretensão salarial",
+      "Comparação de propostas de emprego",
+      "Análise de benefícios: VR, VA, plano de saúde, PLR, bônus",
+      "Sugestão de faixa salarial para negociação",
+      "Script de negociação pronto para usar",
+      "Mobile-first, acessível (WCAG AA)"
+    ],
+    "inLanguage": ["pt-BR", "en"]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6972470739865912" crossorigin="anonymous"></script>
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wgq3jrot0i");
+  </script>
+
+  <!-- ── Google Analytics GA4 ─────────────────────────── -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLQBP1DNEC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-CLQBP1DNEC', {
+      anonymize_ip: true,
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false
+    });
+    // Helper seguro — nunca quebra o app
+    function trackEvent(n, p) {
+      try { gtag('event', n, p || {}); } catch(e) {}
+    }
+  </script>
+
+  <style>
+  /* ════════════════════════════════════════════
+     RESET & VARIÁVEIS
+  ════════════════════════════════════════════ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* ── Opção B: Verde-floresta + Creme ── */
+    --bg:          #F0F4EF;        /* creme esverdeado — suave, não cinza */
+    --bg-2:        #E4EBE3;
+    --surface:     #FFFFFF;
+    --ink:         #1A2E1A;        /* quase preto com toque verde */
+    --ink-2:       #354535;
+    --ink-muted:   #5A6E5A;        /* WCAG AA 4.5:1 */
+    --accent:      #2D6A4F;        /* verde-floresta — cor primária */
+    --accent-mid:  #388E68;
+    --accent-dim:  rgba(45,106,79,.1);
+    --accent-deep: #1F4D38;
+    --success:     #2D6A4F;
+    --success-dim: rgba(45,106,79,.08);
+    --warn:        #92400E;
+    --warn-dim:    #FEF3CD;
+    --danger:      #B91C1C;
+    --danger-dim:  #FEE2E2;
+    --border:      rgba(45,106,79,.15);
+    --border-2:    rgba(45,106,79,.28);
+    --radius-lg:   20px;
+    --radius:      14px;
+    --radius-sm:   10px;
+    --radius-xs:   7px;
+    --fh:          'Plus Jakarta Sans', sans-serif;
+    --fb:          'DM Sans', sans-serif;
+    --ease:        cubic-bezier(.4,0,.2,1);
+    --t:           0.18s;
+    --accent-glow: 0 4px 20px rgba(45,106,79,.2);
+  }
+
+  /* ── Acessibilidade: skip link & focus ────────────── */
+  .skip-link {
+    position: absolute; top: -100%; left: 18px;
+    background: var(--accent); color: #fff;
+    padding: 8px 16px; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    font-size: .85rem; font-weight: 600; text-decoration: none; z-index: 999;
+    transition: top .15s;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* Outline visível para navegação por teclado */
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Remove outline padrão feio só quando há :focus-visible */
+  :focus:not(:focus-visible) { outline: none; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--fb);
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100dvh;
+    padding-bottom: 80px;
+    -webkit-font-smoothing: antialiased;
+    /* Gradiente nas laterais */
+    background-image:
+      linear-gradient(to right, rgba(26,61,43,.08) 0%, transparent 18%),
+      linear-gradient(to left,  rgba(184,134,11,.06) 0%, transparent 18%);
+  }
+
+  /* Gradiente metálico na parte inferior da página */
+  body::after {
+    content: '';
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 320px; pointer-events: none; z-index: 0;
+    background: linear-gradient(
+      to top,
+      rgba(184,134,11,.07) 0%,
+      rgba(45,106,79,.05) 40%,
+      transparent 100%
+    );
+  }
+
+  /* ════════════════════════════════════════════
+     LAYOUT
+  ════════════════════════════════════════════ */
+  .container { max-width: 480px; margin: 0 auto; padding: 0 18px; position: relative; z-index: 1; }
+  .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; padding: 12px 18px 24px; background: linear-gradient(to top, var(--bg) 72%, transparent); transition: bottom .3s var(--ease); }
+
+  /* ════════════════════════════════════════════
+     BANNER DE ANÚNCIO
+  ════════════════════════════════════════════ */
+  .ad-banner {
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 13px;
+    color: var(--ink-muted);
+    font-size: .72rem; font-weight: 500;
+    letter-spacing: .05em; text-transform: uppercase;
+    margin: 18px 0 0;
+  }
+  .ad-above-btn { margin: 0 0 10px; }
+
+  /* ════════════════════════════════════════════
+     TOPBAR (idioma + limpar)
+  ════════════════════════════════════════════ */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0 0;
+  }
+
+  .lang-toggle {
+    display: flex; align-items: center; gap: 2px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    padding: 3px;
+  }
+
+  .lang-btn {
+    padding: 4px 10px;
+    border: none; background: none;
+    border-radius: 100px;
+    font-family: var(--fb); font-size: .75rem; font-weight: 500;
+    color: var(--ink-muted); cursor: pointer;
+    transition: background var(--t) var(--ease), color var(--t) var(--ease);
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .btn-clear {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: none;
+    font-family: var(--fb); font-size: .78rem; font-weight: 500;
+    color: var(--ink-muted); cursor: pointer;
+    padding: 6px 10px;
+    border-radius: var(--radius-xs);
+    transition: color var(--t) var(--ease), background var(--t) var(--ease);
+  }
+  .btn-clear:hover { background: var(--surface); color: var(--danger); }
+
+  .header { padding: 32px 0 36px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-2);
+    color: var(--accent);
+    font-family: var(--fh); font-size: 10.5px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 100px; margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: var(--fh);
+    font-size: clamp(1.65rem, 6vw, 2.1rem);
+    font-weight: 800; line-height: 1.1; letter-spacing: -.03em;
+    color: var(--ink);
+  }
+  .header h1 em { font-style: normal; color: var(--accent); }
+
+  .header-sub {
+    margin-top: 10px; font-size: .9rem;
+    color: var(--ink-muted); line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════════
+     MODO DE CÁLCULO
+  ════════════════════════════════════════════ */
+  .mode-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+
+  .mode-label {
+    font-family: var(--fh); font-size: .75rem; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 12px;
+  }
+
+  .mode-options {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+
+  .mode-opt {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color var(--t) var(--ease), background var(--t) var(--ease);
+  }
+  .mode-opt:has(input:checked) { border-color: var(--accent); background: var(--accent-dim); }
+
+  .mode-opt input[type="radio"] { accent-color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+
+  .mode-opt-text { font-size: .82rem; font-weight: 500; color: var(--ink); line-height: 1.3; }
+  .mode-opt-text small { display: block; font-weight: 400; font-size: .7rem; color: var(--ink-muted); margin-top: 2px; }
+
+  /* ════════════════════════════════════════════
+     TOGGLE "TENHO PROPOSTA"
+  ════════════════════════════════════════════ */
+  .toggle-proposta-wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: border-color var(--t) var(--ease), background var(--t) var(--ease);
+    user-select: none;
+  }
+  .toggle-proposta-wrap.active {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .toggle-proposta-left {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .toggle-proposta-title {
+    font-family: var(--fh); font-size: .9rem; font-weight: 700;
+    color: var(--ink);
+  }
+  .toggle-proposta-sub {
+    font-size: .75rem; color: var(--ink-muted);
+  }
+
+  /* Switch visual do toggle proposta */
+  .tp-switch {
+    position: relative; width: 46px; height: 26px; flex-shrink: 0;
+  }
+  .tp-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .tp-track {
+    position: absolute; inset: 0;
+    background: var(--border-2);
+    border-radius: 999px;
+    transition: background var(--t) var(--ease);
+    cursor: pointer;
+  }
+  .tp-track::after {
+    content: '';
+    position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.22);
+    transition: transform var(--t) var(--ease);
+  }
+  .tp-switch input:checked + .tp-track { background: var(--accent); }
+  .tp-switch input:checked + .tp-track::after { transform: translateX(20px); }
+
+  /* Seção proposta com animação de entrada */
+  #card-proposta {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0; padding-bottom: 0;
+    border-width: 0;
+    transition: max-height .4s var(--ease), opacity .3s var(--ease),
+                margin-bottom .4s var(--ease), padding .3s var(--ease),
+                border-width .15s;
+    pointer-events: none;
+  }
+  #card-proposta.visible {
+    max-height: 3200px; /* high ceiling — never clips */
+    opacity: 1;
+    margin-bottom: 14px;
+    padding-top: 22px; padding-bottom: 22px;
+    border-width: 1.5px;
+    pointer-events: auto;
+  }
+
+  /* Área de resultado oculta por padrão — sem espaço fantasma */
+  #results-area { display: none; }
+  #results-area.active { display: block; }
+
+  /* Cards separados pós-resultado */
+  .aux-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 12px;
+    /* Oculto: sem altura, sem espaço */
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    pointer-events: none;
+    transition: max-height .35s var(--ease), opacity .35s var(--ease),
+                margin-bottom .35s var(--ease);
+  }
+  .aux-card.visible {
+    max-height: 400px;
+    opacity: 1;
+    margin-bottom: 12px;
+    pointer-events: auto;
+  }
+  .aux-card-inner { padding: 18px 20px; }
+
+  .aux-card-title {
+    font-size: .72rem; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 10px;
+  }
+
+  /* ════════════════════════════════════════════
+     CARDS DE SEÇÃO
+  ════════════════════════════════════════════ */
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 20px;
+    margin-bottom: 14px;
+  }
+
+  .card-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .card-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .dot-current  { background: var(--ink-muted); }
+  .dot-proposal { background: var(--accent); }
+
+  .card-title {
+    font-family: var(--fh); font-size: .78rem; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase; color: var(--ink-muted);
+  }
+
+  /* ════════════════════════════════════════════
+     INPUTS
+  ════════════════════════════════════════════ */
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+
+  .field > label {
+    display: block; font-size: .78rem; font-weight: 500;
+    color: var(--ink-muted); margin-bottom: 6px;
+  }
+  .field > label .opt { font-weight: 400; font-size: .7rem; opacity: .6; margin-left: 3px; }
+
+  .input-wrap { position: relative; display: flex; align-items: center; }
+
+  .input-wrap .pfx {
+    position: absolute; left: 13px;
+    font-family: var(--fh); font-weight: 700; font-size: .9rem;
+    color: var(--ink-muted); pointer-events: none; user-select: none;
+  }
+
+  .input-wrap input[type="text"] {
+    width: 100%;
+    padding: 14px 13px 14px 38px;
+    border: 1.5px solid var(--border-2); border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-family: var(--fh); font-size: 1.05rem; font-weight: 600;
+    color: var(--ink); outline: none;
+    transition: border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+    -webkit-appearance: none;
+  }
+  .input-wrap input[type="text"]::placeholder { color: var(--border-2); font-weight: 400; }
+  .input-wrap input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,168,120,.1);
+  }
+  .input-wrap input[type="text"].has-value { border-color: rgba(0,168,120,.4); }
+  .input-wrap input[type="text"]:disabled { opacity: .5; cursor: not-allowed; background: var(--bg); }
+
+  /* duas colunas */
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .field-row .field { margin-bottom: 0; }
+
+  /* ════════════════════════════════════════════
+     CHECKBOX "NÃO SEI O VALOR" (VR / VA)
+  ════════════════════════════════════════════ */
+  .est-toggle {
+    display: flex; align-items: center; gap: 7px;
+    margin-top: 6px; cursor: pointer;
+    font-size: .75rem; color: var(--ink-muted); font-weight: 500;
+    width: fit-content;
+  }
+  .est-toggle input { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
+  .est-badge {
+    background: var(--accent-dim); color: var(--accent);
+    font-family: var(--fh); font-size: .7rem; font-weight: 700;
+    padding: 2px 7px; border-radius: 100px; margin-left: 2px;
+  }
+
+  /* ════════════════════════════════════════════
+     SEPARADOR DE SEÇÃO
+  ════════════════════════════════════════════ */
+  .sec-sep {
+    font-size: .72rem; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ink-muted);
+    margin: 18px 0 11px;
+  }
+
+  /* ════════════════════════════════════════════
+     CHECKBOXES DE BENEFÍCIOS
+  ════════════════════════════════════════════ */
+  .benefit-list { display: flex; flex-direction: column; gap: 6px; }
+
+  .benefit-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 14px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color var(--t) var(--ease), background var(--t) var(--ease);
+    user-select: none; gap: 10px;
+    /* Garante área de toque na linha toda */
+    width: 100%; box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .benefit-item:has(input:checked) { border-color: var(--accent); background: var(--accent-dim); }
+
+  .benefit-item input[type="checkbox"] {
+    accent-color: var(--accent); width: 17px; height: 17px;
+    flex-shrink: 0; cursor: pointer;
+  }
+  .benefit-item-text { flex: 1; font-size: .84rem; font-weight: 500; color: var(--ink); }
+  .benefit-item-val  {
+    font-family: var(--fh); font-size: .78rem; font-weight: 700;
+    color: var(--success); white-space: nowrap;
+  }
+
+  /* ════════════════════════════════════════════
+     BLOCO BÔNUS ANUAL
+  ════════════════════════════════════════════ */
+  .bonus-block { border: 1.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; transition: border-color var(--t) var(--ease); }
+  .bonus-block.active { border-color: var(--accent); }
+
+  .bonus-toggle {
+    display: flex; align-items: center; padding: 11px 13px;
+    cursor: pointer; user-select: none; gap: 10px;
+    transition: background var(--t) var(--ease);
+  }
+  .bonus-block.active .bonus-toggle { background: var(--accent-dim); }
+  .bonus-toggle input[type="checkbox"] { accent-color: var(--accent); width: 17px; height: 17px; flex-shrink: 0; cursor: pointer; }
+  .bonus-toggle-text { font-size: .84rem; font-weight: 500; color: var(--ink); }
+  .bonus-toggle-hint { font-size: .7rem; font-weight: 400; color: var(--ink-muted); margin-left: 4px; }
+
+  .bonus-options {
+    border-top: 1.5px solid var(--border); background: var(--bg);
+    max-height: 0; overflow: hidden;
+    transition: max-height .32s var(--ease);
+  }
+  .bonus-options.open { max-height: 500px; } /* tall enough to never clip */
+  .bonus-options-inner { padding: 12px 13px; }
+
+  /* ── Sub-opções do bônus ── */
+  .bonus-radio-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+
+  .bonus-radio {
+    display: flex; align-items: center; gap: 9px; padding: 9px 12px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-xs);
+    cursor: pointer; background: var(--surface);
+    transition: border-color var(--t) var(--ease), background var(--t) var(--ease);
+  }
+  .bonus-radio:has(input:checked) { border-color: var(--accent); background: var(--accent-dim); }
+  .bonus-radio input[type="radio"] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; }
+  .bonus-radio-text { font-size: .8rem; font-weight: 500; color: var(--ink); line-height: 1.3; }
+  .bonus-radio-text small { display: block; font-weight: 400; font-size: .7rem; color: var(--ink-muted); }
+
+  /* Input do valor do bônus */
+  .bonus-val-wrap { max-height: 0; overflow: hidden; transition: max-height .22s var(--ease); }
+  .bonus-val-wrap.open { max-height: 60px; }
+
+  /* ════════════════════════════════════════════
+     TEXTO DE AJUDA
+  ════════════════════════════════════════════ */
+  .help-text { margin-top: 13px; font-size: .76rem; color: var(--ink-muted); }
+  .help-text a {
+    color: var(--accent); text-decoration: none; font-weight: 500;
+    border-bottom: 1px dotted var(--accent); cursor: pointer;
+  }
+
+  /* Botão fixo some quando teclado mobile está aberto */
+  /* .keyboard-open removido — botão sempre visível mesmo com teclado aberto */
+  .sticky-inner { max-width: 480px; margin: 0 auto; }
+
+  .btn-calc {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 17px 24px;
+    background: linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%);
+    color: #D4A820; border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--fh); font-size: 1rem; font-weight: 800;
+    cursor: pointer; letter-spacing: -.01em;
+    box-shadow: 0 4px 20px rgba(45,106,79,.3);
+    transition: transform var(--t) var(--ease), opacity var(--t) var(--ease);
+  }
+  .btn-calc:active { transform: scale(.97); opacity: .92; }
+  .btn-calc .arrow { transition: transform var(--t) var(--ease); display: inline-block; color: #D4A820; }
+  .btn-calc:hover .arrow { transform: translateX(4px); }
+
+  /* ════════════════════════════════════════════
+     CARD DE RESULTADO
+  ════════════════════════════════════════════ */
+  #resultado {
+    margin-bottom: 14px;
+    opacity: 0; transform: translateY(18px);
+    transition: opacity .38s var(--ease), transform .38s var(--ease);
+    pointer-events: none;
+  }
+  #resultado.visible {
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto;
+    margin-top: 16px;
+  }
+
+  /* ════════════════════════════════════════════
+     RESULTADO — VISUAL CONVERSACIONAL
+  ════════════════════════════════════════════ */
+
+  #resultado {
+    opacity: 0; transform: translateY(12px);
+    transition: opacity .3s var(--ease), transform .3s var(--ease);
+    pointer-events: none;
+  }
+  #resultado.visible {
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto; margin-top: 16px;
+  }
+
+  /* Card principal */
+  .res-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .res-hero {
+    background: linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%);
+    padding: 32px 22px 26px;
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .res-hero::before {
+    content: '';
+    position: absolute; bottom: -20px; right: -20px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .res-hero-label {
+    font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; opacity: .65; margin-bottom: 12px;
+  }
+  .res-hero-amount {
+    font-family: var(--fh); font-size: clamp(2.4rem, 10vw, 3.2rem);
+    font-weight: 800; letter-spacing: -.04em; line-height: 1;
+    color: #D4A820;
+    text-shadow: 0 2px 16px rgba(196,146,10,.3);
+  }
+  .res-hero-sub { font-size: .78rem; opacity: .6; margin-top: 10px; line-height: 1.5; }
+
+  /* ── Faixas ──────────────────────────────── */
+  .res-tiers {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1.5px solid var(--border);
+  }
+  .res-tier { padding: 14px 10px; text-align: center; border-right: 1.5px solid var(--border); }
+  .res-tier:last-child { border-right: none; }
+  .tier-label { font-size: .6rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 4px; }
+  .tier-pct   { font-family: var(--fh); font-size: .8rem; font-weight: 700; margin-bottom: 4px; }
+  .tier-val   { font-family: var(--fh); font-size: .92rem; font-weight: 800; color: var(--ink); }
+  .tier-min  .tier-pct { color: var(--ink-muted); }
+  .tier-ideal .tier-pct { color: var(--accent); }
+  .tier-top  .tier-pct { color: var(--accent-mid); }
+  .tier-ideal .tier-val { color: var(--accent); font-size: 1rem; }
+  .tier-val   { font-family: var(--fh); font-size: .92rem; font-weight: 800; color: var(--ink); }
+
+  /* ── Resumo conversacional ───────────────── */
+  .res-prose {
+    padding: 22px 22px 18px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .res-prose-text {
+    font-size: .9rem; color: var(--ink-2); line-height: 1.75;
+  }
+  .res-prose-text strong { color: var(--ink); font-weight: 700; }
+  .res-prose-text .num {
+    font-family: var(--fh); font-weight: 800; color: var(--gold);
+    font-size: 1rem;
+  }
+  .res-prose-text .num-good { color: var(--accent); }
+  .res-prose-text .num-warn { color: var(--warn); }
+  .res-prose-text .num-bad  { color: var(--danger); }
+
+  /* Veredito inline no prosa */
+  .res-inline-verdict {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 99px;
+    font-size: .78rem; font-weight: 700;
+    vertical-align: middle; margin-left: 2px;
+  }
+  .res-inline-verdict.good { background: var(--success-dim); color: var(--success); }
+  .res-inline-verdict.risk { background: var(--warn-dim);    color: var(--warn);    }
+  .res-inline-verdict.bad  { background: var(--danger-dim);  color: var(--danger);  }
+
+  /* ── Conta de escola ─────────────────────── */
+  .res-conta {
+    padding: 18px 22px;
+    border-bottom: 1.5px solid var(--border);
+    background: var(--bg);
+  }
+  .conta-titulo {
+    font-size: .68rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 14px;
+  }
+  .conta-linha {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 5px 0; font-size: .84rem; color: var(--ink-2);
+  }
+  .conta-linha.conta-base      { font-weight: 600; color: var(--ink); padding-top: 8px; }
+  .conta-linha.conta-resultado { font-weight: 700; }
+  .conta-label { flex: 1; padding-right: 12px; }
+  .conta-valor {
+    font-family: var(--fh); font-weight: 600;
+    font-size: .88rem; letter-spacing: -.01em; text-align: right;
+  }
+  .conta-valor.pos            { color: var(--success); }
+  .conta-valor.neg            { color: var(--danger);  }
+  .conta-valor.conta-destaque { font-size: 1.05rem; font-weight: 800; color: var(--accent); }
+  .conta-divisor        { border: none; border-top: 1.5px solid var(--border);  margin: 6px 0; }
+  .conta-divisor-double { border-top: 3px double var(--border-2); margin: 8px 0 6px; }
+
+  /* Opção de incluir benefícios no resultado */
+  .res-benef-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 14px 22px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg); font-size: .82rem; color: var(--ink-2);
+  }
+  .res-benef-toggle button {
+    background: none; border: none; color: var(--accent);
+    font-size: .82rem; font-weight: 700; cursor: pointer;
+    font-family: var(--fb); white-space: nowrap;
+    padding: 0; transition: opacity var(--t);
+  }
+  .res-benef-toggle button:hover { opacity: .75; }
+
+  /* ── Urgência ────────────────────────────── */
+  .res-urgency { padding: 18px 22px; border-bottom: 1px solid var(--border); }
+  .res-urgency-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .res-urgency-label {
+    font-size: .68rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-muted);
+  }
+  .res-urgency-val { font-family: var(--fh); font-size: .85rem; font-weight: 700; transition: color .2s var(--ease); }
+  .res-urgency-val.cls-low  { color: var(--accent); }
+  .res-urgency-val.cls-mid  { color: var(--ink-2);  }
+  .res-urgency-val.cls-warn { color: var(--warn);   }
+  .res-urgency-val.cls-high { color: var(--danger); }
+  .res-urgency-labels { display: flex; justify-content: space-between; font-size: .65rem; color: var(--ink-muted); margin-top: 6px; }
+
+  /* Slider ocupa largura total */
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 5px;
+    background: var(--border); border-radius: 99px; outline: none; cursor: pointer;
+    display: block;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,168,120,.35);
+    cursor: pointer; transition: box-shadow var(--t) var(--ease);
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 3px 14px rgba(0,168,120,.45); }
+  input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,168,120,.35); cursor: pointer;
+  }
+
+  .urgency-note {
+    margin-top: 10px; padding: 10px 13px;
+    border-radius: var(--radius-xs); font-size: .78rem; line-height: 1.45;
+    min-height: 50px; display: flex; align-items: center;
+    transition: background .2s var(--ease), color .2s var(--ease);
+  }
+  .urgency-note.low  { background: var(--success-dim); color: var(--success); }
+  .urgency-note.mid  { background: var(--accent-dim);  color: var(--accent-deep); }
+  .urgency-note.warn { background: #FEE9CC;             color: #92350A; }
+  .urgency-note.high { background: var(--danger-dim);  color: var(--danger); }
+
+  /* ── Script de fala ──────────────────────── */
+  .res-script { padding: 18px 22px; border-bottom: 1.5px solid var(--border); }
+  .script-label { font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 10px; }
+  .script-box {
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px 16px;
+    font-style: italic; font-size: .85rem; color: var(--ink-2); line-height: 1.65; margin-bottom: 12px;
+  }
+  .btn-copy {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--ink); color: #fff; border: none;
+    border-radius: var(--radius-xs); font-family: var(--fb); font-size: .8rem; font-weight: 500;
+    padding: 9px 16px; cursor: pointer; transition: background var(--t) var(--ease), transform var(--t) var(--ease);
+  }
+  .btn-copy:active { transform: scale(.96); }
+  .btn-copy.copied { background: var(--success); }
+
+  /* ── Moeda de troca ──────────────────────── */
+  .res-trade {
+    display: flex; gap: 13px; align-items: flex-start;
+    padding: 18px 22px; border-top: 1.5px solid var(--border);
+    background: var(--success-dim);
+  }
+  .res-trade-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .res-trade-label { font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--success); margin-bottom: 5px; }
+  .res-trade-text  { font-size: .82rem; color: var(--ink-2); line-height: 1.6; }
+  .res-trade-text strong { color: var(--success); }
+  .res-trade-text em     { font-style: italic; color: var(--ink-muted); }
+
+  /* ── Compartilhar ────────────────────────── */
+  .share-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .share-hint { font-size: .8rem; color: var(--ink-muted); margin-bottom: 10px; }
+  .btn-share-native {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--ink); color: #fff; border: none;
+    border-radius: var(--radius-xs); font-family: var(--fb); font-size: .82rem; font-weight: 600;
+    padding: 10px 16px; cursor: pointer; transition: opacity var(--t) var(--ease);
+  }
+  .btn-share-native:hover { opacity: .82; }
+  .btn-linkedin {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #0A66C2; color: #fff; border: none; border-radius: var(--radius-xs);
+    font-family: var(--fb); font-size: .82rem; font-weight: 600;
+    padding: 10px 16px; cursor: pointer; text-decoration: none; transition: opacity var(--t) var(--ease);
+  }
+  .btn-linkedin:hover { opacity: .88; }
+
+  /* ── Feedback ────────────────────────────── */
+  .feedback-emojis { display: flex; gap: 8px; flex-wrap: wrap; }
+  .fb-btn { border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); cursor: pointer; transition: border-color var(--t) var(--ease), background var(--t) var(--ease), transform .1s; }
+  .fb-btn:active { transform: scale(.96); }
+  .fb-text { padding: 9px 14px; font-family: var(--fb); font-size: .82rem; font-weight: 500; color: var(--ink-2); height: auto; width: auto; }
+  .fb-text:hover    { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+  .fb-text.selected { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+  .fb-highlight { border-color: var(--success); color: var(--success); }
+  .fb-highlight:hover    { background: var(--success-dim); border-color: var(--success); }
+  .fb-highlight.selected { background: var(--success-dim); border-color: var(--success); color: var(--success); }
+  .feedback-thanks { font-size: .8rem; color: var(--success); font-weight: 500; margin-top: 8px; display: none; }
+  .feedback-thanks.show { display: block; }
+
+  /* pos / neg globais */
+  .pos { color: var(--success); }
+  .neg { color: var(--danger); }
+
+  /* ════════════════════════════════════════════
+     MODAL DE ESTIMATIVAS
+  ════════════════════════════════════════════ */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(24,24,26,.48); backdrop-filter: blur(5px);
+    display: flex; align-items: flex-end; justify-content: center;
+    z-index: 100; opacity: 0; pointer-events: none;
+    transition: opacity var(--t) var(--ease);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 26px 22px 40px;
+    width: 100%; max-width: 480px;
+    transform: translateY(28px);
+    transition: transform var(--t) var(--ease);
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal h3 { font-family: var(--fh); font-size: 1.05rem; font-weight: 700; margin-bottom: 14px; }
+  .modal-close {
+    float: right; background: var(--bg); border: none; border-radius: 50%;
+    width: 30px; height: 30px; font-size: 1rem; cursor: pointer;
+    color: var(--ink-muted); line-height: 30px; text-align: center;
+  }
+  .est-list { list-style: none; }
+  .est-list li {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--border); font-size: .85rem;
+  }
+  .est-list li:last-child { border-bottom: none; }
+  .est-list li span:last-child { font-family: var(--fh); font-weight: 700; color: var(--accent); }
+  /* ── Botão calcular de novo ───────────────────────── */
+  .btn-restart {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    width: 100%; padding: 15px 24px; margin-top: 4px;
+    background: transparent;
+    border: 2px solid var(--accent);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    font-family: var(--fh); font-size: .95rem; font-weight: 700;
+    cursor: pointer;
+    transition: background var(--t) var(--ease), color var(--t) var(--ease),
+                transform var(--t) var(--ease);
+  }
+  .btn-restart:hover  { background: var(--accent-dim); }
+  .btn-restart:active { transform: scale(.97); }
+
+  /* ── Link "Como foi feito" no rodapé ─────────────── */
+  .footer-story-btn {
+    background: none; border: none;
+    font-family: var(--fb); font-size: .75rem; font-weight: 500;
+    color: var(--ink-muted); cursor: pointer; padding: 0;
+    text-decoration: underline; text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    margin-top: 4px;
+    transition: color var(--t) var(--ease);
+  }
+  .footer-story-btn:hover { color: var(--accent); }
+
+  /* ── Modal "Como foi feito" ───────────────────────── */
+  .story-modal {
+    background: var(--surface);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    width: 100%; max-width: 480px;
+    max-height: 88dvh;
+    overflow: hidden; /* o scroll fica só no body do modal */
+    display: flex; flex-direction: column;
+    transform: translateY(32px);
+    transition: transform .22s var(--ease);
+  }
+  .modal-overlay.open .story-modal { transform: translateY(0); }
+
+  /* Header fixo do modal — título + X sempre visíveis */
+  .story-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 22px 16px;
+    border-bottom: 1.5px solid var(--border);
+    flex-shrink: 0; /* não encolhe */
+    background: var(--surface);
+  }
+  .story-modal-header h2 {
+    font-family: var(--fh); font-size: 1.1rem; font-weight: 800;
+    letter-spacing: -.02em; margin: 0;
+  }
+  .story-modal-body {
+    overflow-y: auto; /* scroll só aqui */
+    padding: 20px 22px 40px;
+    flex: 1;
+  }
+  .story-section { margin-bottom: 36px; }
+  .story-section h3 {
+    font-family: var(--fh); font-size: .82rem; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 8px;
+  }
+  .story-section p {
+    font-size: .875rem; color: var(--ink-2); line-height: 1.65;
+  }
+  .story-section p + p { margin-top: 8px; }
+
+  .story-quote {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    padding: 12px 14px; margin: 12px 0;
+    font-size: .84rem; font-style: italic;
+    color: var(--accent-deep); line-height: 1.6;
+  }
+  .story-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 100px; padding: 3px 10px;
+    font-size: .72rem; font-weight: 600; color: var(--ink-muted);
+    margin: 4px 2px;
+  }
+  /* ── Feature: Valor por hora ─────────────────────── */
+  .hora-hint {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 8px; padding: 9px 12px;
+    background: var(--accent-dim); border-radius: var(--radius-xs);
+    font-size: .78rem; color: var(--accent-deep);
+  }
+  .hora-hint strong { font-family: var(--fh); font-weight: 700; }
+
+  /* ── Feature: Quanto perdeu ──────────────────────── */
+  .loss-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 20px;
+    margin-bottom: 14px;
+  }
+
+  /* Preview de perda — aparece em tempo real ao preencher os campos */
+  .loss-preview {
+    margin-top: 14px;
+    padding: 14px;
+    background: var(--danger-dim);
+    border: 1.5px solid var(--danger);
+    border-radius: var(--radius-sm);
+    display: none; /* aparece via JS */
+  }
+  .loss-preview.show { display: block; }
+  .loss-preview-top {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .loss-preview-label {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--danger);
+  }
+  .loss-preview-amount {
+    font-family: var(--fh); font-size: 1.3rem; font-weight: 800;
+    color: var(--danger); letter-spacing: -.02em;
+  }
+  .loss-preview-sub {
+    font-size: .75rem; color: var(--danger); opacity: .8; line-height: 1.5;
+  }
+  .loss-preview-cta {
+    margin-top: 8px; font-size: .75rem; font-weight: 600;
+    color: var(--danger); opacity: .9;
+  }
+
+  /* Urgência inline no resultado (substitui slider de simulação) */
+  .res-urgency {
+    padding: 18px 20px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .res-urgency-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .res-urgency-label {
+    font-size: .72rem; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ink-muted);
+  }
+  .res-urgency-val {
+    font-family: var(--fh); font-size: .85rem; font-weight: 700;
+    color: var(--accent);
+    transition: color .2s var(--ease);
+  }
+  /* Label muda de cor conforme urgência */
+  .res-urgency-val.cls-low  { color: var(--success); }
+  .res-urgency-val.cls-mid  { color: var(--accent);  }
+  .res-urgency-val.cls-warn { color: #C2460A;         }
+  .res-urgency-val.cls-high { color: var(--danger);  }
+
+  .res-urgency-labels {
+    display: flex; justify-content: space-between;
+    font-size: .68rem; color: var(--ink-muted); margin-top: 6px;
+  }
+
+  /* Nota de urgência com cores por nível */
+  .urgency-note {
+    margin-top: 10px; padding: 10px 12px;
+    border-radius: var(--radius-xs);
+    font-size: .75rem; line-height: 1.45;
+    min-height: 52px; display: flex; align-items: center;
+    transition: background .2s var(--ease), color .2s var(--ease);
+  }
+  .urgency-note.low  { background: var(--success-dim); color: var(--success); }
+  .urgency-note.mid  { background: var(--accent-dim);  color: var(--accent-deep); }
+  .urgency-note.warn { background: #FEE9CC;             color: #92350A;            }
+  .urgency-note.high { background: var(--danger-dim);  color: var(--danger);      }
+
+  /* Resultado: bloco de valor por hora — antes e depois */
+  .res-hora {
+    padding: 16px 20px; border-bottom: 1.5px solid var(--border);
+    background: var(--bg);
+  }
+  .res-hora-label {
+    font-size: .72rem; color: var(--ink-muted); text-transform: uppercase;
+    letter-spacing: .06em; margin-bottom: 10px; font-weight: 600;
+  }
+  .res-hora-values {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px;
+  }
+  .res-hora-item { text-align: center; }
+  .res-hora-item p {
+    font-size: .68rem; color: var(--ink-muted); margin-bottom: 3px;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .res-hora-item strong {
+    font-family: var(--fh); font-size: 1.1rem; font-weight: 800;
+  }
+  .res-hora-item.current strong { color: var(--ink-2); }
+  .res-hora-item.ideal   strong { color: var(--accent); }
+  .res-hora-arrow { font-size: 1rem; color: var(--border-2); text-align: center; }
+
+  /* Benefícios como moeda de troca */
+  .res-trade {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 16px 20px;
+    border-top: 1.5px solid var(--border);
+    background: var(--success-dim);
+  }
+  .res-trade-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .res-trade-label {
+    font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--success); margin-bottom: 5px;
+  }
+  .res-trade-text {
+    font-size: .82rem; color: var(--ink-2); line-height: 1.55;
+  }
+  .res-trade-text strong { color: var(--success); }
+  .res-trade-text em { font-style: italic; color: var(--ink-muted); }
+
+  /* Disclaimer no rodapé — agora removido daqui (está no modal) */
+  /* ── Disclaimer ──────────────────────────────────── */
+  .disclaimer {
+    font-size: .7rem; color: var(--border-2);
+    text-align: center; padding: 6px 0 0;
+    line-height: 1.5;
+  }
+
+  /* ── Banner LGPD ─────────────────────────────────── */
+  .cookie-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 49;
+    /* z-index 49 = abaixo do sticky-bar (z-index 50) */
+    background: var(--ink); color: #fff;
+    padding: 12px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    transform: translateY(100%);
+    transition: transform .3s var(--ease);
+  }
+  .cookie-banner.show { transform: translateY(0); }
+  .cookie-banner p {
+    font-size: .72rem; line-height: 1.5; flex: 1; min-width: 160px; opacity: .85;
+  }
+  .cookie-banner a { color: #9DB8FF; text-underline-offset: 2px; }
+  .btn-cookie-ok {
+    background: var(--accent); color: #fff; border: none;
+    border-radius: var(--radius-xs); padding: 7px 16px;
+    font-family: var(--fb); font-size: .78rem; font-weight: 600;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    transition: opacity var(--t) var(--ease);
+  }
+  .btn-cookie-ok:hover { opacity: .85; }
+
+  /* Quando o banner está visível, empurra o sticky-bar para cima */
+  .sticky-bar {
+    transition: bottom .3s var(--ease), transform .15s var(--ease), opacity .15s var(--ease);
+  }
+  .sticky-bar.with-banner { bottom: var(--cookie-h, 60px); }
+
+  /* ── Rodapé ───────────────────────────────────────── */
+  .site-footer {
+    padding: 14px 0 30px; border-top: 1px solid var(--border); margin-top: 8px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .footer-line { font-size: .72rem; color: var(--ink-muted); }
+  .footer-line a { color: var(--ink-muted); text-decoration: none; border-bottom: 1px dotted var(--border-2); transition: color var(--t); }
+  .footer-line a:hover { color: var(--accent); border-color: var(--accent); }
+  .footer-story-btn {
+    background: none; border: none; font-family: var(--fb); font-size: .72rem;
+    color: var(--ink-muted); cursor: pointer; padding: 0;
+    border-bottom: 1px dotted var(--border-2); transition: color var(--t);
+  }
+  .footer-story-btn:hover { color: var(--accent); }
+
+  /* ── Urgência no formulário — idêntico ao do resultado ── */
+  .form-urgency {
+    padding: 18px 0 4px;
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+
+  /* Benefícios ocultos por padrão */
+  #vrva-atual, #benef-atual, #vrva-proposta, #benef-proposta {
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height .4s var(--ease), opacity .3s var(--ease), margin .3s var(--ease);
+    margin-top: 0;
+  }
+  #vrva-atual.benef-visible, #benef-atual.benef-visible,
+  #vrva-proposta.benef-visible, #benef-proposta.benef-visible {
+    max-height: 2000px; opacity: 1; margin-top: 14px;
+  }
+
+  /* Hint de "adicionar benefícios" */
+  .benef-hint {
+    display: none; margin-top: 12px;
+    font-size: .78rem; color: var(--ink-muted);
+  }
+  .benef-hint.show { display: block; }
+  .benef-hint button {
+    background: none; border: none; color: var(--accent); font-size: .78rem;
+    font-weight: 600; cursor: pointer; padding: 0; font-family: var(--fb);
+    text-decoration: underline; text-decoration-style: dotted;
+  }
+  .res-piso {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 14px 22px; border-bottom: 1.5px solid var(--border);
+    background: var(--warn-dim); font-size: .82rem;
+    color: var(--ink-2); line-height: 1.55;
+  }
+  .res-piso span:first-child { font-size: 1rem; flex-shrink: 0; }
+  .res-piso strong { color: var(--warn); font-weight: 700; }
+
+  /* Conta de escola ─────────────────────────────── */
+  .res-conta {
+    padding: 18px 20px; border-bottom: 1.5px solid var(--border);
+    background: var(--bg);
+  }
+  .conta-titulo {
+    font-size: .72rem; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px;
+  }
+  .conta-linha {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 4px 0; font-size: .85rem; color: var(--ink-2);
+  }
+  .conta-linha.conta-base      { font-weight: 600; color: var(--ink); margin-top: 4px; }
+  .conta-linha.conta-resultado { font-weight: 700; }
+  .conta-label { flex: 1; padding-right: 12px; }
+  .conta-valor {
+    font-family: var(--fh); font-weight: 600;
+    font-size: .88rem; letter-spacing: -.01em; text-align: right;
+  }
+  .conta-valor.pos            { color: var(--accent); }
+  .conta-valor.neg            { color: var(--danger);  }
+  .conta-valor.conta-destaque { font-size: 1.05rem; font-weight: 800; color: var(--accent); }
+  .conta-divisor        { border: none; border-top: 1.5px solid var(--border);  margin: 8px 0; }
+  .conta-divisor-double { border-top: 3px double var(--border-2); margin: 8px 0 6px; }
+  /* ── Desktop — mobile-first com ajustes para tela maior ── */
+  @media (min-width: 600px) {
+    .container { max-width: 560px; padding: 0 28px; }
+    .sticky-inner { max-width: 560px; }
+
+    /* Tipografia um pouco menor em desktop — calibrada para mobile */
+    .header h1 { font-size: 2rem; }
+    .header-sub { font-size: .95rem; }
+    .res-hero-amount { font-size: 2.8rem; }
+
+    /* Mais respiro nos cards */
+    .card { padding: 26px 24px; }
+    .res-hero { padding: 36px 28px 28px; }
+    .res-prose { padding: 24px 28px 20px; }
+    .res-conta { padding: 20px 28px; }
+    .res-urgency { padding: 20px 28px; }
+    .res-script { padding: 20px 28px; }
+
+    /* Modais maiores no desktop */
+    .story-modal { max-width: 560px; }
+    .modal { max-width: 560px; }
+  }
+
+  @media (min-width: 900px) {
+    /* Em telas muito largas, adiciona fundo com bordas para contextualizar */
+    body { background-attachment: fixed; }
+    .container { max-width: 560px; }
+  }
+
+  </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+<!-- ── Banner topo ──────────────────────────────────── -->
+<!-- AdSense: após aprovação, substitua o conteúdo abaixo pela unidade gerada no painel -->
+<div class="container">
+  <div class="ad-banner" aria-hidden="true">
+    <span style="opacity:.35;font-size:.65rem">📢 ESPAÇO PUBLICITÁRIO</span>
+    <!-- Cole aqui sua unidade AdSense quando aprovado:
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXX" data-ad-slot="XXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+</div>
+
+<div class="container" id="main-content" role="main">
+  <div class="topbar">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">🇧🇷 PT</button>
+      <button class="lang-btn"        data-lang="en" onclick="setLang('en')">🇺🇸 EN</button>
+    </div>
+    <button class="btn-clear" id="btn-clear" onclick="limpar()">
+      ↺ <span data-i="clear">Limpar</span>
+    </button>
+  </div>
+
+  <!-- ── Cabeçalho ───────────────────────────────────── -->
+  <header class="header">
+    <h1><span data-i="h1a">Quanto você deve</span><br><em data-i="h1b" style="color:#B8860B">pedir nessa proposta?</em></h1>
+    <p class="header-sub" data-i="sub">Você merece mais — e vamos garantir que você receba o que vale!</p>
+  </header>
+
+  <!-- Modo oculto — padrão simples, pode ser alterado após resultado -->
+  <input type="radio" name="modo" value="simples" checked style="display:none" />
+
+  <!-- ════════════════════════════════════════════
+       SEÇÃO 1 — SITUAÇÃO ATUAL
+  ════════════════════════════════════════════ -->
+  <section class="card" id="card-atual">
+    <div class="card-header">
+      <span class="card-dot dot-current"></span>
+      <span class="card-title" data-i="cardAtual">Situação atual</span>
+    </div>
+
+    <!-- Salário -->
+    <div class="field">
+      <label for="sal-atual"><span data-i="salAtual">Salário atual</span> <span class="opt" data-i="req">(obrigatório)</span> <span class="opt" data-i="perMonth" style="color:var(--ink-muted)">/mês</span></label>
+      <div class="input-wrap">
+        <span class="pfx" aria-hidden="true">R$</span>
+        <input type="text" id="sal-atual" inputmode="numeric" placeholder="ex: 5.000" data-placeholder-i="phSalAtual"
+               autocomplete="off" aria-label="Salário atual em reais" aria-required="true" />
+      </div>
+    </div>
+
+    <!-- Slider de urgência no formulário — idêntico ao do resultado -->
+    <div class="form-urgency" id="form-urgency-wrap">
+      <div class="res-urgency-header">
+        <span class="res-urgency-label" data-i="urgLabel">Você precisa muito sair?</span>
+        <span class="res-urgency-val cls-low" id="form-urgency-val">Nenhuma urgência</span>
+      </div>
+      <input type="range" id="form-urgency-slider" min="1" max="5" step="1" value="3"
+             aria-label="Nível de urgência de 1 a 5" />
+      <div class="res-urgency-labels">
+        <span data-i="urgNone">Nenhuma</span>
+        <span data-i="urgHigh">Urgente</span>
+      </div>
+    </div>
+
+    <!-- Hint progressivo de benefícios -->
+    <div class="benef-hint" id="benef-hint-atual">
+      <span data-i="benefHintAtual">Tem benefícios no emprego atual?</span>
+      <button onclick="mostrarBeneficios('atual')" data-i="benefAdd">Adicionar →</button>
+    </div>
+
+    <!-- VR + VA (ocultos por padrão) -->
+    <div id="vrva-atual" class="field-row">
+      <div class="field">
+        <label for="vr-atual"><span data-i="vrLabel">Vale Refeição</span> <span class="opt" data-i="opt">(opcional)</span></label>
+        <div class="input-wrap">
+          <span class="pfx" aria-hidden="true">R$</span>
+          <input type="text" id="vr-atual" inputmode="numeric" placeholder="0"
+                 autocomplete="off" aria-label="Vale Refeição mensal em reais (opcional)" />
+        </div>
+        <label class="est-toggle" for="vr-est-atual">
+          <input type="checkbox" id="vr-est-atual" aria-label="Não sei o valor do Vale Refeição, usar estimativa de R$ 600" />
+          <span data-i="useEst" aria-hidden="true">Não sei</span>
+          <span class="est-badge" aria-hidden="true">≈ R$ 600</span>
+        </label>
+      </div>
+      <div class="field">
+        <label for="va-atual"><span data-i="vaLabel">Vale Alimentação</span> <span class="opt" data-i="opt">(opcional)</span></label>
+        <div class="input-wrap">
+          <span class="pfx" aria-hidden="true">R$</span>
+          <input type="text" id="va-atual" inputmode="numeric" placeholder="0"
+                 autocomplete="off" aria-label="Vale Alimentação mensal em reais (opcional)" />
+        </div>
+        <label class="est-toggle" for="va-est-atual">
+          <input type="checkbox" id="va-est-atual" aria-label="Não sei o valor do Vale Alimentação, usar estimativa de R$ 600" />
+          <span data-i="useEst" aria-hidden="true">Não sei</span>
+          <span class="est-badge" aria-hidden="true">≈ R$ 600</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Benefícios (ocultos no modo simples) -->
+    <div id="benef-atual">
+      <p class="sec-sep" data-i="benefits">Outros benefícios</p>
+      <div class="benefit-list">
+        <label class="benefit-item">
+          <input type="checkbox" id="saude-atual" aria-label="Plano de saúde — valor estimado R$ 500 por mês" />
+          <span class="benefit-item-text" data-i="saude">Plano de saúde</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 500</span>
+        </label>
+        <label class="benefit-item">
+          <input type="checkbox" id="odonto-atual" aria-label="Plano odontológico — valor estimado R$ 100 por mês" />
+          <span class="benefit-item-text" data-i="odonto">Plano odontológico</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 100</span>
+        </label>
+        <label class="benefit-item">
+          <input type="checkbox" id="vt-atual" aria-label="Vale transporte — valor estimado R$ 300 por mês" />
+          <span class="benefit-item-text" data-i="vt">Vale transporte</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 300</span>
+        </label>
+        <label class="benefit-item">
+          <input type="checkbox" id="gym-atual" aria-label="Wellhub ou Gympass — valor estimado R$ 120 por mês" />
+          <span class="benefit-item-text" data-i="gym">Wellhub / Gympass</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 120</span>
+        </label>
+
+        <!-- Bônus anual -->
+        <div class="bonus-block" id="bonus-block-atual">
+          <label class="bonus-toggle" for="bonus-check-atual">
+            <input type="checkbox" id="bonus-check-atual" aria-expanded="false" aria-controls="bonus-options-atual" aria-label="Tenho bônus anual — expandir para detalhar" />
+            <span class="bonus-toggle-text">
+              <span data-i="bonus">Bônus anual</span>
+              <span class="bonus-toggle-hint" data-i="bonusHint">14º, 15º salário…</span>
+            </span>
+          </label>
+          <div class="bonus-options" id="bonus-options-atual">
+            <div class="bonus-options-inner">
+              <div class="bonus-radio-group">
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-atual" value="fixo" checked />
+                  <div class="bonus-radio-text"><span data-i="bonusFixo">Valor anual fixo</span><small data-i="bonusFixoEx">ex: R$ 5.000</small></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-atual" value="pct" />
+                  <div class="bonus-radio-text"><span data-i="bonusPct">% do salário anual</span><small data-i="bonusPctEx">ex: 10% = ~1,2 sal.</small></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-atual" value="sal" />
+                  <div class="bonus-radio-text"><span data-i="bonusSal">Nº de salários</span><small data-i="bonusSalEx">ex: 2 salários</small></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-atual" value="est" />
+                  <div class="bonus-radio-text"><span data-i="bonusEst">Não sei — usar estimativa</span><small>≈ R$ 800/mês</small></div>
+                </label>
+              </div>
+              <div class="bonus-val-wrap" id="bonus-val-atual">
+                <div class="input-wrap">
+                  <span class="pfx" id="bonus-pfx-atual" aria-hidden="true">R$</span>
+                  <input type="text" id="bonus-num-atual" inputmode="numeric" placeholder="0" autocomplete="off" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /bonus-block-atual -->
+
+        <!-- PLR -->
+        <div class="bonus-block" id="plr-block-atual">
+          <label class="bonus-toggle" for="plr-check-atual">
+            <input type="checkbox" id="plr-check-atual" aria-expanded="false" aria-controls="plr-options-atual" aria-label="Tenho PLR — participação nos lucros — expandir para detalhar" />
+            <span class="bonus-toggle-text">
+              PLR
+              <span class="bonus-toggle-hint" data-i="plrHint">Participação nos lucros</span>
+            </span>
+          </label>
+          <div class="bonus-options" id="plr-options-atual">
+            <div class="bonus-options-inner">
+              <div class="bonus-radio-group">
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-atual" value="fixo" checked />
+                  <div class="bonus-radio-text"><span data-i="bonusFixo">Valor anual fixo</span><small data-i="bonusFixoEx">ex: R$ 9.600</small></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-atual" value="pct" />
+                  <div class="bonus-radio-text"><span data-i="bonusPct">% do salário anual</span></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-atual" value="sal" />
+                  <div class="bonus-radio-text"><span data-i="bonusSal">Nº de salários</span></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-atual" value="est" />
+                  <div class="bonus-radio-text"><span data-i="bonusEst">Não sei — usar estimativa</span><small>≈ R$ 800/mês</small></div>
+                </label>
+              </div>
+              <div class="bonus-val-wrap" id="plr-val-atual">
+                <div class="input-wrap">
+                  <span class="pfx" id="plr-pfx-atual" aria-hidden="true">R$</span>
+                  <input type="text" id="plr-num-atual" inputmode="numeric" placeholder="0" autocomplete="off" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /plr-block-atual -->
+
+      </div><!-- /benefit-list -->
+    </div><!-- /benef-atual -->
+
+    <p class="help-text" data-i="helpText">
+      Não sabe o valor dos benefícios?
+      <a id="ajuda-atual" role="button" tabindex="0" data-i="seeEst">Ver estimativas</a>
+    </p>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       TOGGLE — TER PROPOSTA
+  ════════════════════════════════════════════ -->
+  <label class="toggle-proposta-wrap" id="toggle-proposta-wrap" for="toggle-proposta">
+    <div class="toggle-proposta-left">
+      <span class="toggle-proposta-title" data-i="togglePropostaTitle">Tenho uma nova proposta</span>
+      <span class="toggle-proposta-sub" data-i="togglePropostaSub">Ativar para comparar com a oferta recebida</span>
+    </div>
+    <div class="tp-switch">
+      <input type="checkbox" id="toggle-proposta"
+             aria-expanded="false"
+             aria-controls="card-proposta"
+             aria-label="Tenho uma nova proposta — ativar para comparar" />
+      <span class="tp-track" aria-hidden="true"></span>
+    </div>
+  </label>
+
+  <!-- ════════════════════════════════════════════
+       SEÇÃO 2 — NOVA PROPOSTA (oculta por padrão)
+  ════════════════════════════════════════════ -->
+  <section class="card" id="card-proposta">
+    <div class="card-header">
+      <span class="card-dot dot-proposal"></span>
+      <span class="card-title" data-i="cardProposta">Nova proposta</span>
+    </div>
+
+    <!-- Campos da proposta -->
+    <div id="proposta-campos">
+    <div class="field">
+      <label for="sal-proposta"><span data-i="salProposta">Salário da proposta</span> <span class="opt" data-i="opt2">(opcional)</span> <span class="opt" data-i="perMonth" style="color:var(--ink-muted)">/mês</span></label>
+      <div class="input-wrap">
+        <span class="pfx" aria-hidden="true">R$</span>
+        <input type="text" id="sal-proposta" inputmode="numeric" placeholder="ex: 6.000" data-placeholder-i="phSalProposta"
+               autocomplete="off" aria-label="Salário da proposta em reais (opcional)" />
+      </div>
+    </div>
+
+    <!-- Hint progressivo de benefícios da proposta -->
+    <div class="benef-hint" id="benef-hint-proposta">
+      <span data-i="benefHintProposta">A proposta inclui benefícios?</span>
+      <button onclick="mostrarBeneficios('proposta')" data-i="benefAdd">Adicionar →</button>
+    </div>
+
+    <!-- VR + VA -->
+    <div id="vrva-proposta" class="field-row">
+      <div class="field">
+        <label for="vr-proposta"><span data-i="vrLabel">Vale Refeição</span> <span class="opt" data-i="opt">(opcional)</span></label>
+        <div class="input-wrap">
+          <span class="pfx" aria-hidden="true">R$</span>
+          <input type="text" id="vr-proposta" inputmode="numeric" placeholder="0"
+                 autocomplete="off" aria-label="Vale Refeição mensal da proposta em reais (opcional)" />
+        </div>
+        <label class="est-toggle" for="vr-est-proposta">
+          <input type="checkbox" id="vr-est-proposta" aria-label="Não sei o valor do Vale Refeição da proposta, usar estimativa de R$ 600" />
+          <span data-i="useEst" aria-hidden="true">Não sei</span>
+          <span class="est-badge" aria-hidden="true">≈ R$ 600</span>
+        </label>
+      </div>
+      <div class="field">
+        <label for="va-proposta"><span data-i="vaLabel">Vale Alimentação</span> <span class="opt" data-i="opt">(opcional)</span></label>
+        <div class="input-wrap">
+          <span class="pfx" aria-hidden="true">R$</span>
+          <input type="text" id="va-proposta" inputmode="numeric" placeholder="0"
+                 autocomplete="off" aria-label="Vale Alimentação mensal da proposta em reais (opcional)" />
+        </div>
+        <label class="est-toggle" for="va-est-proposta">
+          <input type="checkbox" id="va-est-proposta" aria-label="Não sei o valor do Vale Alimentação da proposta, usar estimativa de R$ 600" />
+          <span data-i="useEst" aria-hidden="true">Não sei</span>
+          <span class="est-badge" aria-hidden="true">≈ R$ 600</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Benefícios -->
+    <div id="benef-proposta">
+      <p class="sec-sep" data-i="benefits">Outros benefícios</p>
+      <div class="benefit-list">
+        <label class="benefit-item">
+          <input type="checkbox" id="saude-proposta" aria-label="Plano de saúde da proposta — valor estimado R$ 500 por mês" />
+          <span class="benefit-item-text" data-i="saude">Plano de saúde</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 500</span>
+        </label>
+        <label class="benefit-item">
+          <input type="checkbox" id="odonto-proposta" aria-label="Plano odontológico da proposta — valor estimado R$ 100 por mês" />
+          <span class="benefit-item-text" data-i="odonto">Plano odontológico</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 100</span>
+        </label>
+        <label class="benefit-item">
+          <input type="checkbox" id="vt-proposta" aria-label="Vale transporte da proposta — valor estimado R$ 300 por mês" />
+          <span class="benefit-item-text" data-i="vt">Vale transporte</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 300</span>
+        </label>
+        <label class="benefit-item">
+          <input type="checkbox" id="gym-proposta" aria-label="Wellhub ou Gympass da proposta — valor estimado R$ 120 por mês" />
+          <span class="benefit-item-text" data-i="gym">Wellhub / Gympass</span>
+          <span class="benefit-item-val" aria-hidden="true">+R$ 120</span>
+        </label>
+
+        <!-- Bônus anual proposta -->
+        <div class="bonus-block" id="bonus-block-proposta">
+          <label class="bonus-toggle" for="bonus-check-proposta">
+            <input type="checkbox" id="bonus-check-proposta" aria-expanded="false" aria-controls="bonus-options-proposta" aria-label="A proposta inclui bônus anual — expandir para detalhar" />
+            <span class="bonus-toggle-text">
+              <span data-i="bonus">Bônus anual</span>
+              <span class="bonus-toggle-hint" data-i="bonusHint">14º, 15º salário…</span>
+            </span>
+          </label>
+          <div class="bonus-options" id="bonus-options-proposta">
+            <div class="bonus-options-inner">
+              <div class="bonus-radio-group">
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-proposta" value="fixo" checked />
+                  <div class="bonus-radio-text"><span data-i="bonusFixo">Valor anual fixo</span><small data-i="bonusFixoEx">ex: R$ 5.000</small></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-proposta" value="pct" />
+                  <div class="bonus-radio-text"><span data-i="bonusPct">% do salário anual</span></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-proposta" value="sal" />
+                  <div class="bonus-radio-text"><span data-i="bonusSal">Nº de salários</span></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="bonus-modo-proposta" value="est" />
+                  <div class="bonus-radio-text"><span data-i="bonusEst">Não sei — usar estimativa</span><small>≈ R$ 800/mês</small></div>
+                </label>
+              </div>
+              <div class="bonus-val-wrap" id="bonus-val-proposta">
+                <div class="input-wrap">
+                  <span class="pfx" id="bonus-pfx-proposta" aria-hidden="true">R$</span>
+                  <input type="text" id="bonus-num-proposta" inputmode="numeric" placeholder="0" autocomplete="off" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLR proposta -->
+        <div class="bonus-block" id="plr-block-proposta">
+          <label class="bonus-toggle" for="plr-check-proposta">
+            <input type="checkbox" id="plr-check-proposta" aria-expanded="false" aria-controls="plr-options-proposta" aria-label="A proposta inclui PLR — participação nos lucros — expandir para detalhar" />
+            <span class="bonus-toggle-text">
+              PLR
+              <span class="bonus-toggle-hint" data-i="plrHint">Participação nos lucros</span>
+            </span>
+          </label>
+          <div class="bonus-options" id="plr-options-proposta">
+            <div class="bonus-options-inner">
+              <div class="bonus-radio-group">
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-proposta" value="fixo" checked />
+                  <div class="bonus-radio-text"><span data-i="bonusFixo">Valor anual fixo</span></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-proposta" value="pct" />
+                  <div class="bonus-radio-text"><span data-i="bonusPct">% do salário anual</span></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-proposta" value="sal" />
+                  <div class="bonus-radio-text"><span data-i="bonusSal">Nº de salários</span></div>
+                </label>
+                <label class="bonus-radio">
+                  <input type="radio" name="plr-modo-proposta" value="est" />
+                  <div class="bonus-radio-text"><span data-i="bonusEst">Não sei — usar estimativa</span><small>≈ R$ 800/mês</small></div>
+                </label>
+              </div>
+              <div class="bonus-val-wrap" id="plr-val-proposta">
+                <div class="input-wrap">
+                  <span class="pfx" id="plr-pfx-proposta" aria-hidden="true">R$</span>
+                  <input type="text" id="plr-num-proposta" inputmode="numeric" placeholder="0" autocomplete="off" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /benefit-list -->
+    </div><!-- /benef-proposta -->
+
+    <p class="help-text" data-i="helpText">
+      Não sabe o valor dos benefícios?
+      <a id="ajuda-proposta" role="button" tabindex="0" data-i="seeEst">Ver estimativas</a>
+    </p>
+
+    </div><!-- /proposta-campos -->
+  </section>
+
+</div><!-- /container -->
+
+<!-- ── Botão fixo (sem anúncio) ─────────────────────── -->
+<div class="sticky-bar">
+  <div class="sticky-inner">
+    <button class="btn-calc" id="btn-calc">
+      <span data-i="btnCalc">Calcular quanto devo pedir</span>
+      <span class="arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- ── Banner de anúncio — entre inputs e resultado ── -->
+<div class="container" id="ad-meio" style="display:none; padding-top:16px;">
+  <div class="ad-banner" style="margin:0;" aria-hidden="true">
+    <span style="opacity:.35;font-size:.65rem">📢 ESPAÇO PUBLICITÁRIO</span>
+    <!-- Cole aqui sua unidade AdSense quando aprovado -->
+  </div>
+</div>
+
+<!-- ── Resultado + cards auxiliares (mesmo container, sem gaps fantasma) ── -->
+<div class="container" id="results-area" style="padding-top:16px;">
+  <div id="resultado" role="region" aria-live="polite"></div>
+  <div class="aux-card" id="card-share">
+    <div class="aux-card-inner">
+      <div class="aux-card-title" data-i="shareLabel">Manda para alguém que precisa disso 👀</div>
+      <p class="share-hint" data-i="shareHint">Não é um post — é uma mensagem particular. Sabe aquele amigo que vai receber uma proposta? Copie a mensagem abaixo e mande direto no WhatsApp ou LinkedIn.</p>
+      <div class="share-btns">
+        <button class="btn-share-native" id="btn-copy-msg">
+          <span data-i="resCopyMsg">📋 Copiar mensagem</span>
+        </button>
+        <button class="btn-share-native" id="btn-share-native" style="background:var(--bg);color:var(--ink);border:1.5px solid var(--border-2);">
+          <span data-i="resShareBtn">↗ Compartilhar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="aux-card" id="card-feedback">
+    <div class="aux-card-inner">
+      <div class="aux-card-title" data-i="feedbackLabel">Isso te ajudou?</div>
+      <div class="feedback-emojis" id="feedback-emojis" role="group" aria-label="Avalie sua experiência">
+        <button class="fb-btn fb-text" data-score="1" aria-label="Não ajudou" aria-pressed="false">
+          <span data-i="feedbackQ1">Não ajudou</span>
+        </button>
+        <button class="fb-btn fb-text" data-score="3" aria-label="Foi útil" aria-pressed="false">
+          👌 <span data-i="feedbackQ2">Foi útil</span>
+        </button>
+        <button class="fb-btn fb-text fb-highlight" data-score="5" aria-label="Salvou minha negociação" aria-pressed="false">
+          🔥 <span data-i="feedbackQ3">Salvou minha negociação</span>
+        </button>
+      </div>
+      <div class="feedback-thanks" id="feedback-thanks"></div>
+    </div>
+  </div>
+
+
+</div><!-- /results-area -->
+
+<!-- ── Rodapé ──────────────────────────────────────────── -->
+<div class="container">
+  <footer class="site-footer">
+    <button class="footer-story-btn" id="btn-story" data-i="footerStory">Como foi construído ✦</button>
+    <span class="footer-line"><span data-i="footerCredit">Desenvolvido com</span> <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> · v1.0</span>
+  </footer>
+</div>
+
+<!-- ── Banner LGPD ───────────────────────────────────── -->
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Aviso de privacidade">
+  <p>Usamos dados de navegação anonimizados (Google Analytics) para melhorar a ferramenta. Nenhum dado pessoal é coletado. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Saiba mais</a></p>
+  <button class="btn-cookie-ok" id="btn-cookie-ok">Entendi</button>
+</div>
+
+<!-- ── Modal "Como foi construído" ───────────────────── -->
+<div class="modal-overlay" id="story-overlay" role="dialog" aria-modal="true" aria-labelledby="story-title">
+  <div class="story-modal">
+
+    <div class="story-modal-header">
+      <h2 id="story-title">Como foi construído</h2>
+      <button class="modal-close" id="story-close" aria-label="Fechar">✕</button>
+    </div>
+
+    <!-- ── Versão PT ── -->
+    <div class="story-modal-body" id="story-body-pt">
+
+      <div class="story-section">
+        <h3>🌱 A origem</h3>
+        <p>Todo mundo já passou por aquele momento: o recrutador pergunta <em>"qual é a sua pretensão salarial?"</em> e a pessoa trava. Chuta um número. Aceita menos do que vale com medo de perder a vaga.</p>
+        <p>Ou então recebe uma proposta com salário maior — mas sem os benefícios que tinha antes. Parece bom. Mas será que é? Fazer essa conta na hora, com o recrutador esperando resposta, é impossível.</p>
+        <p>Esse produto nasceu para acabar com esse chute. Para que qualquer pessoa chegue nessa conversa com um número justo, calculado, e com argumento para defendê-lo.</p>
+      </div>
+
+      <div class="story-section">
+        <h3>🤖 Construído com IA — de verdade, e com muito trabalho</h3>
+        <p>Esse projeto foi desenvolvido inteiramente em conversação com o <strong>Claude</strong> (Anthropic) — não como assistente de código, mas como co-designer de produto. Foram <strong>dezenas de sessões</strong>, centenas de mensagens, e muito mais trabalho do que eu esperava.</p>
+        <p>Ser honesto aqui faz parte do projeto: trabalhar com IA não é mágica. É iteração. É corrigir bug que a IA introduziu na sessão anterior. É explicar três vezes o mesmo comportamento esperado. É o slider de urgência aplicando +5% silenciosamente e inflando todos os resultados por sessões inteiras antes de alguém perceber.</p>
+        <div class="story-quote">"Você merece mais — e agora tem os números para provar."</div>
+        <p>Mas também é ver um produto real nascer de uma conversa. Com decisões documentadas, erros corrigidos, e um resultado que funciona de verdade. Isso tem valor — e quero que fique registrado aqui.</p>
+      </div>
+
+      <div class="story-section">
+        <h3>🧮 Por que os percentuais são diferentes por faixa</h3>
+        <p>A primeira versão sugeria 15/20/25% para todo mundo. Mas isso está errado — e os dados do IBGE confirmam. Quem ganha menos tem menos poder de negociação.</p>
+        <div style="margin:12px 0;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;">
+          <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;background:var(--bg);padding:8px 12px;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);">
+            <span>Faixa</span><span style="text-align:center">Mínimo</span><span style="text-align:center">Ideal</span><span style="text-align:center">Agressivo</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:8px 12px;font-size:.78rem;border-top:1px solid var(--border);"><span style="color:var(--ink-muted)">Até R$ 2.500</span><span style="text-align:center;color:var(--warn);font-weight:700">+5%</span><span style="text-align:center;color:var(--accent);font-weight:700">+8%</span><span style="text-align:center;color:var(--accent-mid);font-weight:700">+12%</span></div>
+          <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:8px 12px;font-size:.78rem;border-top:1px solid var(--border);background:var(--surface);"><span style="color:var(--ink-muted)">R$ 2.5k–5k</span><span style="text-align:center;color:var(--warn);font-weight:700">+10%</span><span style="text-align:center;color:var(--accent);font-weight:700">+15%</span><span style="text-align:center;color:var(--accent-mid);font-weight:700">+20%</span></div>
+          <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:8px 12px;font-size:.78rem;border-top:1px solid var(--border);"><span style="color:var(--ink-muted)">R$ 5k–10k</span><span style="text-align:center;color:var(--warn);font-weight:700">+12%</span><span style="text-align:center;color:var(--accent);font-weight:700">+18%</span><span style="text-align:center;color:var(--accent-mid);font-weight:700">+25%</span></div>
+          <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:8px 12px;font-size:.78rem;border-top:1px solid var(--border);background:var(--surface);"><span style="color:var(--ink-muted)">+ R$ 10k</span><span style="text-align:center;color:var(--warn);font-weight:700">+15%</span><span style="text-align:center;color:var(--accent);font-weight:700">+20%</span><span style="text-align:center;color:var(--accent-mid);font-weight:700">+30%</span></div>
+        </div>
+        <p>Quando há uma proposta com pacote diferente, os benefícios entram diretamente na base de cálculo. Plano de saúde perdido vale R$ 500/mês — isso precisa aparecer no número final.</p>
+      </div>
+
+      <div class="story-section">
+        <h3>🛠 Stack & infraestrutura</h3>
+        <p>Um único arquivo HTML — sem frameworks, sem build tools, sem dependências. Funciona em qualquer celular, carrega em menos de 1 segundo.</p>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;">
+          <span class="story-tag">HTML5 semântico</span><span class="story-tag">CSS custom properties</span><span class="story-tag">JavaScript vanilla</span><span class="story-tag">Mobile-first</span><span class="story-tag">WCAG AA</span><span class="story-tag">Schema.org / SEO</span><span class="story-tag">Google Analytics 4</span><span class="story-tag">Microsoft Clarity</span><span class="story-tag">Google AdSense</span><span class="story-tag">GitHub</span><span class="story-tag">Netlify CI/CD</span><span class="story-tag">HTTPS</span><span class="story-tag">Domínio próprio</span><span class="story-tag">Claude (Anthropic)</span>
+        </div>
+        <p style="margin-top:12px">Isso não é um projeto de portfólio — é um produto em produção. Com domínio próprio (<strong>quantopedir.com.br</strong>), deploy automático via GitHub, heatmaps e gravações de sessão, monetização com AdSense e acessibilidade WCAG AA. Cada detalhe pensado como produto real de mercado.</p>
+      </div>
+
+      <div class="story-section">
+        <h3>👤 Quem fez</h3>
+        <p style="font-weight:700;color:var(--ink);font-size:.95rem;margin-bottom:3px">Erick Jesus</p>
+        <p style="font-size:.8rem;color:var(--accent);margin-bottom:12px">São Paulo, Brasil</p>
+        <p style="font-size:.85rem;color:var(--ink-2);line-height:1.75">Profissional de produto que resolve problemas de verdade — com empatia pelo usuário e clareza sobre o que gera valor para o negócio. Acredito que experiências bem pensadas não são custo: são vantagem competitiva.</p>
+        <p style="font-size:.85rem;color:var(--ink-2);line-height:1.75;margin-top:8px">Generalista por natureza e por escolha. Já atuei em saúde, financeiro, seguros e entretenimento — o que me ensinou que boas perguntas valem mais que respostas rápidas. Sou bom em entrevistar usuários, em pensar no ecossistema inteiro, e em transformar complexidade em algo que simplesmente funciona.</p>
+        <p style="font-size:.85rem;color:var(--ink-2);line-height:1.75;margin-top:8px">Estou construindo meus próprios produtos agora. Esse aqui é o primeiro.</p>
+        <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+          <a href="https://www.linkedin.com/in/erickjesus/" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:6px;background:#0A66C2;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://www.behance.net/uxjesus" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:6px;background:#1769FF;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
+            Portfólio
+          </a>
+        </div>
+      </div>
+
+      <div class="story-section">
+        <h3>⚖️ Importante</h3>
+        <p>Os valores são estimativas baseadas em médias de mercado e não constituem assessoria trabalhista ou financeira. Cada negociação é única — use como ponto de partida, não como verdade absoluta.</p>
+      </div>
+
+    </div><!-- /story-body-pt -->
+
+    <!-- ── Versão EN — simplificada ── -->
+    <div class="story-modal-body" id="story-body-en" style="display:none">
+
+      <div class="story-section">
+        <h3>👤 About</h3>
+        <p style="font-weight:700;color:var(--ink);font-size:.95rem;margin-bottom:3px">Erick Jesus</p>
+        <p style="font-size:.8rem;color:var(--accent);margin-bottom:12px">São Paulo, Brazil</p>
+        <p style="font-size:.85rem;color:var(--ink-2);line-height:1.75">A product professional who solves real problems — with empathy for the user and a clear eye on business value. I believe well-designed experiences aren't a cost: they're a competitive advantage.</p>
+        <p style="font-size:.85rem;color:var(--ink-2);line-height:1.75;margin-top:8px">Generalist by nature and by choice. I've worked across healthcare, finance, insurance, and entertainment — which taught me that the right questions are worth more than fast answers. I'm skilled at user interviews, systems thinking, and turning complexity into something that just works.</p>
+        <p style="font-size:.85rem;color:var(--ink-2);line-height:1.75;margin-top:8px">I'm building my own products now. This is the first one.</p>
+        <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+          <a href="https://www.linkedin.com/in/erickjesus/" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:6px;background:#0A66C2;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://www.behance.net/uxjesus" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:6px;background:#1769FF;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
+            Portfolio
+          </a>
+        </div>
+      </div>
+
+      <div class="story-section">
+        <h3>🛠 Stack</h3>
+        <p>Single HTML file. No frameworks, no build tools, no dependencies. Loads in under 1 second on any device.</p>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;">
+          <span class="story-tag">HTML5</span><span class="story-tag">CSS</span><span class="story-tag">Vanilla JS</span><span class="story-tag">GA4</span><span class="story-tag">Clarity</span><span class="story-tag">AdSense</span><span class="story-tag">GitHub</span><span class="story-tag">Netlify</span><span class="story-tag">WCAG AA</span><span class="story-tag">Claude AI</span>
+        </div>
+        <p style="margin-top:10px;font-size:.83rem;color:var(--ink-2)">This is a live product — not a portfolio piece. Custom domain, automatic deploys, session recordings, monetization, and full accessibility. Built entirely through AI-assisted development.</p>
+      </div>
+
+      <div class="story-section">
+        <h3>⚖️ Disclaimer</h3>
+        <p style="font-size:.83rem;color:var(--ink-2)">Values are market-based estimates and do not constitute legal or financial advice. Use as a starting point, not as absolute truth.</p>
+      </div>
+
+    </div><!-- /story-body-en -->
+
+  </div>
+</div>
+
+<!-- ── Modal de estimativas ─────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Fechar">✕</button>
+    <h3 id="modal-title" data-i="modalTitle">Estimativas de benefícios</h3>
+    <ul class="est-list">
+      <li><span data-i="estVRbasico">VR básico (22 dias úteis)</span><span>≈ R$ 528</span></li>
+      <li><span data-i="estVRmedio">VR intermediário</span><span>≈ R$ 880</span></li>
+      <li><span data-i="estVA">VA (valor alimentação)</span><span>≈ R$ 600–900</span></li>
+      <li><span data-i="estSaude">Plano de saúde (individual)</span><span>≈ R$ 300–700</span></li>
+      <li><span data-i="estOdonto">Plano odontológico</span><span>≈ R$ 50–150</span></li>
+      <li><span data-i="estVT">Vale-transporte (SP)</span><span>≈ R$ 280–400</span></li>
+      <li><span data-i="estGym">Gympass / Wellhub (básico)</span><span>≈ R$ 50–120</span></li>
+      <li><span data-i="estPLR">PLR média anual ÷ 12</span><span>≈ R$ 800</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+
+// ── CONSTANTES ───────────────────────────────────────────
+const VR_ESTIMADO   = 600;
+const VA_ESTIMADO   = 600;
+const PLR_ESTIMADO  = 800;  // mensal (PLR anual ÷ 12)
+const BONUS_ESTIMADO = 800; // mensal (bônus anual ÷ 12)
+
+const VALOR_BENEFICIO = { saude: 500, odonto: 100, vt: 300, gym: 120 };
+
+// ── INTERNACIONALIZAÇÃO ──────────────────────────────────
+const TEXTOS = {
+  pt: {
+    badge: 'Calculadora de pretensão salarial',
+    h1a: 'Quanto você deve', h1b: 'pedir nessa proposta?',
+    sub: 'Você merece mais — e vamos garantir que você receba o que vale!',
+    modeLabel: 'O que você quer calcular?',
+    modeTotal: 'Salário + benefícios', modeTotalSub: 'Visão completa do pacote',
+    modeCash: 'Só o salário',  modeCashSub: 'Recomendado — como o mercado negocia',
+    cardAtual: 'Situação atual', cardProposta: 'Nova proposta',
+    salAtual: 'Salário atual', salProposta: 'Salário da proposta',
+    req: '(obrigatório)', opt: '(opcional)', opt2: '(opcional)',
+    useEst: 'Não sei', benefits: 'Outros benefícios',
+    saude: 'Plano de saúde', odonto: 'Plano odontológico',
+    vt: 'Vale transporte', gym: 'Wellhub / Gympass',
+    bonus: 'Bônus anual', bonusHint: '14º, 15º salário…',
+    bonusFixo: 'Valor anual fixo', bonusFixoEx: 'ex: R$ 5.000',
+    bonusPct: '% do salário anual', bonusPctEx: 'ex: 10% = ~1,2 sal.',
+    bonusSal: 'Nº de salários', bonusSalEx: 'ex: 2 salários',
+    bonusEst: 'Não sei — usar estimativa',
+    plrHint: 'Participação nos lucros',
+    helpText: 'Não sabe o valor dos benefícios?', seeEst: 'Ver estimativas',
+    btnCalc: 'Calcular quanto devo pedir',
+    clear: 'Limpar',
+    semProposta: 'Não tenho outra proposta ainda',
+    togglePropostaTitle: 'Tenho uma nova proposta',
+    togglePropostaSub: 'Ativar para comparar com a oferta recebida',
+    shareLabel: 'Compartilhar',
+    shareHint: 'Compartilhe com alguém que está avaliando propostas',
+    shareBtn: 'Compartilhar',
+    urgLabel: 'Você precisa muito sair?',
+    urgNone: 'Nenhuma', urgHigh: 'Urgente',
+    feedbackLabel: 'Isso te ajudou?',
+    modalTitle: 'Estimativas de benefícios',
+    estVRbasico: 'VR básico (22 dias úteis)', estVRmedio: 'VR intermediário',
+    estVA: 'VA (valor alimentação)', estSaude: 'Plano de saúde (individual)',
+    estOdonto: 'Plano odontológico', estVT: 'Vale-transporte (SP)',
+    estGym: 'Gympass / Wellhub (básico)', estPLR: 'PLR média anual ÷ 12',
+    vrLabel: 'Vale Refeição', vaLabel: 'Vale Alimentação',
+    benefHintAtual: 'Tem benefícios no emprego atual?',
+    benefHintProposta: 'A proposta inclui benefícios?',
+    benefAdd: 'Adicionar →',
+    feedbackQ1: 'Calculei minha pretensão', feedbackQ2: 'Ainda tenho dúvidas', feedbackQ3: 'Salvou minha negociação!',
+    resBenefsToggle: '💡 Tem benefícios no pacote?',
+    resBenefsBtn: 'Incluir no cálculo →',
+    resScriptLabel: 'Como dizer na entrevista',
+    resScriptLabelNeg: 'Como responder a proposta',
+    resCopyBtn: '📋 Copiar como falar isso',
+    resUrgLabel: 'Você precisa muito sair?',
+    resCopyMsg: '📋 Copiar mensagem',
+    resShareBtn: '↗ Compartilhar',
+    footerStory: 'Como foi construído ✦',
+    footerCredit: 'Desenvolvido com',
+    perMonth: '/mês',
+    phSalAtual: 'ex: 5.000', phSalProposta: 'ex: 6.000',
+  },
+  en: {
+    badge: 'Salary negotiation tool',
+    h1a: 'How much should you', h1b: 'ask for this offer?',
+    sub: "You deserve more — and now you have the numbers to prove it.",
+    modeLabel: 'What would you like to calculate?',
+    modeTotal: 'Salary + benefits', modeTotalSub: 'Full compensation package view',
+    modeCash: 'Base salary only', modeCashSub: 'Recommended — how the market really negotiates',
+    cardAtual: 'Your current situation', cardProposta: 'The new offer',
+    salAtual: 'Current salary', salProposta: 'Offer salary',
+    req: '(required)', opt: '(optional)', opt2: '(optional)',
+    useEst: "I'm not sure", benefits: 'Additional benefits',
+    saude: 'Health insurance', odonto: 'Dental plan',
+    vt: 'Transportation allowance', gym: 'Wellhub / Gympass',
+    bonus: 'Annual bonus', bonusHint: '13th month, 14th month…',
+    bonusFixo: 'Fixed annual amount', bonusFixoEx: 'e.g. R$ 5,000',
+    bonusPct: '% of annual salary', bonusPctEx: 'e.g. 10% ≈ 1.2 months',
+    bonusSal: 'Number of monthly salaries', bonusSalEx: 'e.g. 2 salaries',
+    bonusEst: "Not sure — use a market estimate",
+    plrHint: 'Profit sharing (PLR)',
+    helpText: "Not sure what your benefits are worth?", seeEst: 'See estimates',
+    btnCalc: 'Calculate my salary expectation',
+    clear: 'Start over',
+    semProposta: "I don't have an offer yet",
+    togglePropostaTitle: 'I have a job offer to compare',
+    togglePropostaSub: 'Turn on to compare with the offer you received',
+    shareLabel: 'Know someone who needs this? 👀',
+    shareHint: "Not a post — a private message. If a friend is evaluating an offer or doesn't know what to ask, send them the link below.",
+    shareBtn: 'Copy message',
+    urgLabel: 'How badly do you need to leave?',
+    urgNone: 'Not at all', urgHigh: 'Urgently',
+    feedbackLabel: 'Did this help you?',
+    modalTitle: 'Benefit value estimates',
+    estVRbasico: 'Basic meal voucher (22 working days)', estVRmedio: 'Mid-range meal voucher',
+    estVA: 'Food allowance (VA)', estSaude: 'Health insurance (individual plan)',
+    estOdonto: 'Dental insurance', estVT: 'Transport allowance (São Paulo)',
+    estGym: 'Gympass / Wellhub (basic tier)', estPLR: 'Avg. annual profit sharing ÷ 12',
+    vrLabel: 'Meal voucher', vaLabel: 'Food allowance',
+    benefHintAtual: 'Any benefits in your current job?',
+    benefHintProposta: 'Does the offer include benefits?',
+    benefAdd: 'Add →',
+    feedbackQ1: 'I calculated my expectation', feedbackQ2: 'I still have questions', feedbackQ3: 'This saved my negotiation!',
+    resBenefsToggle: '💡 Does your package include benefits?',
+    resBenefsBtn: 'Add to calculation →',
+    resScriptLabel: 'What to say in the interview',
+    resScriptLabelNeg: 'How to respond to the offer',
+    resCopyBtn: '📋 Copy this script',
+    resUrgLabel: 'How badly do you need to leave?',
+    resCopyMsg: '📋 Copy message',
+    resShareBtn: '↗ Share',
+    footerStory: 'How it was built ✦',
+    footerCredit: 'Built with',
+    perMonth: '/month',
+    phSalAtual: 'e.g. 5,000', phSalProposta: 'e.g. 6,000',
+  }
+};
+
+let langAtual = 'pt';
+
+function setLang(lang) {
+  langAtual = lang;
+  document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const k = el.dataset.i;
+    if (TEXTOS[lang][k] !== undefined) el.textContent = TEXTOS[lang][k];
+  });
+
+  // Traduz placeholders
+  document.querySelectorAll('[data-placeholder-i]').forEach(el => {
+    const k = el.dataset.placeholderI;
+    if (TEXTOS[lang][k] !== undefined) el.placeholder = TEXTOS[lang][k];
+  });
+
+  // Troca corpo do modal "Como foi construído"
+  const bodyPt = document.getElementById('story-body-pt');
+  const bodyEn = document.getElementById('story-body-en');
+  const storyTitle = document.getElementById('story-title');
+  if (bodyPt && bodyEn) {
+    bodyPt.style.display = lang === 'pt' ? '' : 'none';
+    bodyEn.style.display = lang === 'en' ? '' : 'none';
+  }
+  if (storyTitle) storyTitle.textContent = lang === 'pt' ? 'Como foi construído' : 'How it was built';
+
+  // Atualiza labels de urgência com a nova língua
+  const formValEl = document.getElementById('form-urgency-val');
+  if (formValEl) {
+    const cfg = getUrgCfg(urgencyLevel);
+    formValEl.textContent = cfg.label;
+    formValEl.className   = `res-urgency-val cls-${cfg.cls}`;
+  }
+  const resValEl  = document.getElementById('urgency-val-txt');
+  const resNoteEl = document.getElementById('urgency-note');
+  if (resValEl) {
+    const cfg = getUrgCfg(urgencyLevel);
+    resValEl.textContent  = cfg.label;
+    resValEl.className    = `res-urgency-val cls-${cfg.cls}`;
+    if (resNoteEl) { resNoteEl.textContent = cfg.note; resNoteEl.className = `urgency-note ${cfg.cls}`; }
+  }
+
+  // Re-renderiza resultado se já foi calculado
+  if (calculouUmaVez && dadosCalculo) {
+    const { totalAtual, totalPropos, salAtual, extrasAtual, difMensal, difAnual,
+            aumento, salProposta, extrasPropos, comProposta, faixa, breakdown } = dadosCalculo;
+    const urgAdj = getUrgCfg(urgencyLevel).adj;
+    const pedMin   = (breakdown?.base ?? salAtual) * (1 + (faixa.min   + urgAdj) / 100);
+    const pedIdeal = (breakdown?.base ?? salAtual) * (1 + (faixa.ideal + urgAdj) / 100);
+    const pedTop   = (breakdown?.base ?? salAtual) * (1 + (faixa.top   + urgAdj) / 100);
+    renderResultado({ totalAtual, totalPropos, salAtual, extrasAtual, difMensal, difAnual,
+                      aumento, pedMin, pedIdeal, pedTop, urgAdj, faixa,
+                      extrasPropos, comProposta, salProposta, breakdown,
+                      scrollToResult: false });
+  }
+}
+
+// ── FORMATAÇÃO DE MOEDA ──────────────────────────────────
+
+// Formata número inteiro digitado → "9.500"  (sem centavos)
+function fmtBRL(raw) {
+  if (!raw) return '';
+  const num = parseInt(raw.replace(/\D/g, ''), 10);
+  if (isNaN(num)) return '';
+  return num.toLocaleString('pt-BR');   // ex: 9500 → "9.500"
+}
+
+// Lê string formatada → número  "9.500" → 9500
+function parseBRL(str) {
+  if (!str) return 0;
+  // Remove pontos de milhar (não há vírgula/centavos no novo formato)
+  return parseInt(str.replace(/\D/g, ''), 10) || 0;
+}
+
+// Exibe valor no resultado com ",00" apenas na saída visual
+function moeda(v) {
+  return 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+}
+
+// Máscara: só números inteiros, sem centavos
+document.querySelectorAll('input[inputmode="numeric"]').forEach(inp => {
+  inp.addEventListener('input', () => {
+    const raw    = inp.value.replace(/\D/g, '');
+    inp.value    = raw ? parseInt(raw, 10).toLocaleString('pt-BR') : '';
+    inp.classList.toggle('has-value', !!raw && parseInt(raw, 10) > 0);
+    onCampoEditado();
+  });
+  inp.addEventListener('focus', () => setTimeout(() => inp.select(), 50));
+});
+
+// Detecta edição em checkboxes e toggles — ignora benefícios (ativados via ativarModoCompleto)
+document.addEventListener('change', e => {
+  if (e.target.closest('.benefit-item, .bonus-block, .est-toggle')) return;
+  if (e.target.matches('input[type="checkbox"], input[type="radio"]')) {
+    onCampoEditado();
+  }
+});
+
+// ── TECLADO MOBILE ───────────────────────────────────────
+const stickyBar = document.querySelector('.sticky-bar');
+
+// Flag: true enquanto o slider de urgência está sendo usado
+// — evita scroll indesejado durante interação
+let sliderInteracting = false;
+
+function scrollFieldIntoView(el) {
+  if (sliderInteracting) return; // não rola durante uso do slider
+  setTimeout(() => {
+    const vvh  = window.visualViewport?.height ?? window.innerHeight;
+    const rect = el.getBoundingClientRect();
+    // Só rola se o campo estiver realmente coberto pelo teclado
+    if (rect.bottom > vvh - 20) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 320);
+}
+
+// O botão fixo NÃO some mais com o teclado — ele fica sempre visível.
+// O campo é que rola para ficar acima do teclado via scrollFieldIntoView.
+// Isso resolve o problema de o botão sumir e o usuário não conseguir calcular.
+
+// Rola campo para ficar visível quando ganha foco (texto, não range/checkbox)
+document.querySelectorAll('input[type="text"]').forEach(inp => {
+  inp.addEventListener('focus', () => scrollFieldIntoView(inp));
+});
+
+// ── ATIVAR MODO COMPLETO VIA RESULTADO ───────────────────
+function ativarModoCompleto() {
+  setModo('completo');
+  mostrarBeneficios('atual');
+  document.getElementById('res-benef-toggle')?.remove();
+  setTimeout(() => {
+    const alvo = document.getElementById('vrva-atual') || document.getElementById('benef-hint-atual');
+    if (alvo) {
+      const y = alvo.getBoundingClientRect().top + window.scrollY - 24;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, 150);
+}
+
+// ── BENEFÍCIOS PROGRESSIVOS ───────────────────────────────
+function mostrarBeneficios(sufixo) {
+  setModo('completo');
+  ['vrva', 'benef'].forEach(prefix => {
+    document.getElementById(`${prefix}-${sufixo}`)?.classList.add('benef-visible');
+  });
+  document.getElementById(`benef-hint-${sufixo}`)?.classList.remove('show');
+}
+
+// Mostra hint quando salário é preenchido
+document.getElementById('sal-atual')?.addEventListener('input', () => {
+  const sal = parseBRL(document.getElementById('sal-atual').value);
+  const hint = document.getElementById('benef-hint-atual');
+  if (hint && sal > 0) {
+    const vrva = document.getElementById('vrva-atual');
+    if (!vrva?.classList.contains('benef-visible')) {
+      hint.classList.add('show');
+    }
+  } else if (hint) {
+    hint.classList.remove('show');
+  }
+});
+
+// Mostra hint de benefícios da proposta quando salário proposta é preenchido
+document.getElementById('sal-proposta')?.addEventListener('input', () => {
+  const sal = parseBRL(document.getElementById('sal-proposta').value);
+  const hint = document.getElementById('benef-hint-proposta');
+  if (hint && sal > 0) {
+    const vrva = document.getElementById('vrva-proposta');
+    if (!vrva?.classList.contains('benef-visible')) {
+      hint.classList.add('show');
+    }
+  } else if (hint) {
+    hint.classList.remove('show');
+  }
+});
+
+// ── MODO SIMPLES / COMPLETO ──────────────────────────────
+// Modo global — começa como simples, muda quando pessoa ativa benefícios
+let modoAtual = 'simples';
+
+function getModo() {
+  return modoAtual;
+}
+
+function setModo(modo) {
+  modoAtual = modo;
+}
+
+document.querySelectorAll('input[name="modo"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const simples = getModo() === 'simples';
+    ['vrva-atual','benef-atual','vrva-proposta','benef-proposta'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = simples ? 'none' : '';
+    });
+  });
+});
+
+// ── VR / VA ESTIMATIVA ───────────────────────────────────
+['atual','proposta'].forEach(s => {
+  ['vr','va'].forEach(tipo => {
+    const est  = document.getElementById(`${tipo}-est-${s}`);
+    const inp  = document.getElementById(`${tipo}-${s}`);
+    const val  = tipo === 'vr' ? VR_ESTIMADO : VA_ESTIMADO;
+    if (!est || !inp) return;
+    est.addEventListener('change', () => {
+      inp.disabled = est.checked;
+      if (est.checked) {
+        inp.value = val.toLocaleString('pt-BR'); // ex: "600"
+        inp.classList.add('has-value');
+      } else {
+        inp.value = '';
+        inp.classList.remove('has-value');
+      }
+    });
+    // Fix 4: desmarcar estimativa ao digitar manualmente
+    inp.addEventListener('input', () => {
+      if (est.checked) {
+        est.checked = false;
+        inp.disabled = false;
+      }
+    });
+  });
+});
+
+// ── TOGGLE "TENHO PROPOSTA" ──────────────────────────────
+const toggleProposta     = document.getElementById('toggle-proposta');
+const togglePropostaWrap = document.getElementById('toggle-proposta-wrap');
+const cardProposta       = document.getElementById('card-proposta');
+
+function setToggleProposta(ativo) {
+  toggleProposta.checked = ativo;
+  toggleProposta.setAttribute('aria-expanded', String(ativo));
+  togglePropostaWrap.classList.toggle('active', ativo);
+  cardProposta.classList.toggle('visible', ativo);
+}
+
+toggleProposta.addEventListener('change', () => {
+  setToggleProposta(toggleProposta.checked);
+  if (toggleProposta.checked) {
+    setTimeout(() => document.getElementById('sal-proposta')?.focus(), 420);
+  }
+});
+
+// Estado inicial: card proposta oculto
+setToggleProposta(false);
+
+// Helper: indica se o usuário tem proposta
+function temProposta() {
+  return toggleProposta.checked;
+}
+
+// ── BÔNUS / PLR (genérico) ───────────────────────────────
+function initBonus(tipo, sufixo) {
+  // tipo: 'bonus' | 'plr'
+  const checkbox   = document.getElementById(`${tipo}-check-${sufixo}`);
+  const optionsEl  = document.getElementById(`${tipo}-options-${sufixo}`);
+  const block      = document.getElementById(`${tipo}-block-${sufixo}`);
+  const valWrap    = document.getElementById(`${tipo}-val-${sufixo}`);
+  const pfxEl      = document.getElementById(`${tipo}-pfx-${sufixo}`);
+
+  checkbox.addEventListener('change', () => {
+    const ativo = checkbox.checked;
+    checkbox.setAttribute('aria-expanded', String(ativo));
+    optionsEl.classList.toggle('open', ativo);
+    block.classList.toggle('active', ativo);
+    if (ativo) atualizarBonusInput(tipo, sufixo);
+  });
+
+  document.querySelectorAll(`input[name="${tipo}-modo-${sufixo}"]`).forEach(r => {
+    r.addEventListener('change', () => atualizarBonusInput(tipo, sufixo));
+  });
+}
+
+function atualizarBonusInput(tipo, sufixo) {
+  const modo   = document.querySelector(`input[name="${tipo}-modo-${sufixo}"]:checked`)?.value;
+  const valWrap = document.getElementById(`${tipo}-val-${sufixo}`);
+  const pfxEl   = document.getElementById(`${tipo}-pfx-${sufixo}`);
+  const mostraInput = modo === 'fixo' || modo === 'pct' || modo === 'sal';
+  valWrap?.classList.toggle('open', mostraInput);
+  if (pfxEl) pfxEl.textContent = modo === 'pct' ? '%' : (modo === 'sal' ? 'x' : 'R$');
+}
+
+/**
+ * Calcula e retorna o valor MENSAL do bônus/PLR.
+ * Converte fixo anual → mensal, % → mensal, nSalários → mensal.
+ */
+function getValorBonus(tipo, sufixo) {
+  const checkbox = document.getElementById(`${tipo}-check-${sufixo}`);
+  if (!checkbox?.checked) return 0;
+
+  const modo  = document.querySelector(`input[name="${tipo}-modo-${sufixo}"]:checked`)?.value;
+  const est   = tipo === 'plr' ? PLR_ESTIMADO : BONUS_ESTIMADO;
+  if (modo === 'est') return est;
+
+  const raw = parseBRL(document.getElementById(`${tipo}-num-${sufixo}`)?.value);
+  if (!raw) return 0;
+
+  const salMensal = parseBRL(document.getElementById(`sal-${sufixo}`)?.value);
+
+  if (modo === 'fixo') return raw / 12;                   // anual → mensal
+  if (modo === 'pct')  return (salMensal * 12 * raw / 100) / 12; // % do anual → mensal
+  if (modo === 'sal')  return salMensal * raw / 12;       // n salários → mensal
+  return 0;
+}
+
+// Inicializa os 4 blocos
+['atual','proposta'].forEach(s => {
+  initBonus('bonus', s);
+  initBonus('plr',   s);
+});
+
+// ── BENEFÍCIOS CHECKBOXES ────────────────────────────────
+function getSomaBeneficios(sufixo) {
+  return Object.entries(VALOR_BENEFICIO).reduce((acc, [id, val]) => {
+    const el = document.getElementById(`${id}-${sufixo}`);
+    return acc + (el?.checked ? val : 0);
+  }, 0);
+}
+
+// ── HELPERS DE LEITURA ───────────────────────────────────
+function getVR(sufixo) {
+  const est = document.getElementById(`vr-est-${sufixo}`);
+  if (est?.checked) return VR_ESTIMADO;
+  return parseBRL(document.getElementById(`vr-${sufixo}`)?.value);
+}
+function getVA(sufixo) {
+  const est = document.getElementById(`va-est-${sufixo}`);
+  if (est?.checked) return VA_ESTIMADO;
+  return parseBRL(document.getElementById(`va-${sufixo}`)?.value);
+}
+
+// ── FEATURE 1: VALOR POR HORA (live preview) ─────────────
+const SEMANAS_MES   = 4.345; // média de semanas por mês
+const HORAS_PADRAO  = 40;    // fallback se não informado
+
+function calcularValorHora(salMensal, horasSemana) {
+  const h = horasSemana > 0 ? horasSemana : HORAS_PADRAO;
+  return salMensal / (h * SEMANAS_MES);
+}
+
+// Atualiza preview de valor/hora em tempo real
+function atualizarHoraHint() {
+  const sal   = parseBRL(document.getElementById('sal-atual')?.value);
+  const horas = parseBRL(document.getElementById('horas-semana')?.value);
+  const hint  = document.getElementById('hora-hint');
+  const valEl = document.getElementById('hora-val');
+  if (!hint || !valEl) return;
+  if (sal > 0 && horas > 0) {
+    hint.style.display = 'flex';
+    valEl.textContent  = moeda(calcularValorHora(sal, horas)) + '/hora';
+  } else {
+    hint.style.display = 'none';
+  }
+}
+
+document.getElementById('sal-atual')?.addEventListener('input', atualizarHoraHint);
+document.getElementById('horas-semana')?.addEventListener('input', () => {
+  // Máscara simples — só números inteiros para horas
+  const inp = document.getElementById('horas-semana');
+  const raw = inp.value.replace(/\D/g, '');
+  inp.value = raw;
+  inp.classList.toggle('has-value', raw.length > 0 && parseInt(raw) > 0);
+  atualizarHoraHint();
+});
+
+// ── FEATURE 2: PREVIEW DE PERDA EM TEMPO REAL ────────────
+function atualizarLossPreview() {
+  const sal          = parseBRL(document.getElementById('sal-atual')?.value);
+  const anos         = parseBRL(document.getElementById('anos-emprego')?.value);
+  const ultimoAum    = parseBRL(document.getElementById('ultimo-aumento')?.value);
+  const preview      = document.getElementById('loss-preview');
+  const amountEl     = document.getElementById('loss-preview-amount');
+  const subEl        = document.getElementById('loss-preview-sub');
+
+  if (!preview || !amountEl || !subEl) return;
+
+  if (sal > 0 && anos > 0) {
+    const dados = calcularPerdaSalarial(sal, anos, ultimoAum);
+    if (dados && dados.perdaTotal > 0) {
+      amountEl.textContent = moeda(dados.perdaTotal);
+      subEl.textContent    = `Em ${dados.anosSemAumento} ano${dados.anosSemAumento !== 1 ? 's' : ''} sem negociar — você deveria estar ganhando ${moeda(dados.salIdealHoje)}.`;
+      preview.classList.add('show');
+    } else {
+      preview.classList.remove('show');
+    }
+  } else {
+    preview.classList.remove('show');
+  }
+}
+
+['sal-atual', 'anos-emprego', 'ultimo-aumento'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', atualizarLossPreview);
+});
+
+// ── FEATURE 3: URGÊNCIA ──────────────────────────────────
+// adj = ajuste em pontos percentuais sobre as faixas base (15/20/25%)
+// Lógica: quanto mais urgente, menor o poder de negociação.
+// Urgência máxima = aceite qualquer coisa acima do atual (mínimo vai a 0%).
+const URGENCY_CONFIG = [
+  null,
+  { labelPt: 'Nenhuma urgência', labelEn: 'No urgency', cls: 'low',
+    notePt: 'Você tem leverage total. Pode pedir o máximo sem medo — a pior resposta é um "não".',
+    noteEn: 'You have full leverage. Ask for the maximum — the worst they can say is no.',
+    adj: +5 },
+  { labelPt: 'Pouca urgência', labelEn: 'Low urgency', cls: 'low',
+    notePt: 'Boa posição. Negocie com calma e não aceite abaixo do ideal.',
+    noteEn: 'Good position. Negotiate calmly and don\'t settle below your ideal.',
+    adj: +2 },
+  { labelPt: 'Neutro', labelEn: 'Neutral', cls: 'mid',
+    notePt: 'Situação equilibrada. Siga os percentuais sugeridos como referência.',
+    noteEn: 'Balanced situation. Use the suggested percentages as your reference.',
+    adj: 0  },
+  { labelPt: 'Alguma urgência', labelEn: 'Some urgency', cls: 'warn',
+    notePt: 'Atenção: urgência reduz seu leverage. Foque no mínimo aceitável e não mostre pressa.',
+    noteEn: 'Caution: urgency reduces your leverage. Focus on your minimum and don\'t show desperation.',
+    adj: -7 },
+  { labelPt: 'Urgente', labelEn: 'Urgent', cls: 'high',
+    notePt: 'Situação crítica. Priorize qualquer oferta acima do seu salário atual. Aceitar menos do que você ganha hoje é o único limite real.',
+    noteEn: 'Critical situation. Prioritize any offer above your current salary. Accepting less than you earn today is the only real limit.',
+    adj: -15 },
+];
+
+function getUrgCfg(level) {
+  const cfg = URGENCY_CONFIG[level] || URGENCY_CONFIG[3];
+  const pt  = langAtual === 'pt';
+  return {
+    ...cfg,
+    label: pt ? cfg.labelPt : cfg.labelEn,
+    note:  pt ? cfg.notePt  : cfg.noteEn,
+  };
+}
+
+// urgency-slider é criado dinamicamente no resultado — persiste valor aqui
+let urgencyLevel = 3; // neutro por padrão — adj = 0
+
+function getUrgencyAdj() {
+  return URGENCY_CONFIG[urgencyLevel]?.adj ?? 0;
+}
+
+// ── SLIDER DE URGÊNCIA NO FORMULÁRIO ─────────────────────
+(function initFormUrgency() {
+  const slider = document.getElementById('form-urgency-slider');
+  const valEl  = document.getElementById('form-urgency-val');
+  if (!slider) return;
+
+  function update() {
+    urgencyLevel = parseInt(slider.value, 10);
+    const cfg = getUrgCfg(urgencyLevel);
+    if (!cfg || !valEl) return;
+    valEl.textContent = cfg.label;
+    valEl.className   = `res-urgency-val cls-${cfg.cls}`;
+  }
+
+  slider.addEventListener('input', update);
+  update();
+})();
+
+// ── FEATURE 2: QUANTO VOCÊ PERDEU ────────────────────────
+const AUMENTO_ANUAL_IDEAL = 0.10; // 10% ao ano — referência de mercado
+
+function calcularPerdaSalarial(salAtual, anosEmprego, anosDesdeAumento) {
+  if (!anosEmprego || anosEmprego <= 0) return null;
+  const anos = Math.min(anosEmprego, 30); // cap razoável
+  const anosSemAumento = Math.min(anosDesdeAumento || anosEmprego, anos);
+
+  // Salário que deveria ter hoje se tivesse negociado 10%/ano
+  const salIdeal = salAtual * Math.pow(1 + AUMENTO_ANUAL_IDEAL, anosSemAumento);
+
+  // Diferença mensal acumulada (simplificada — média do período)
+  const difMedia  = (salIdeal - salAtual) / 2;
+  const perdaMensal = Math.max(difMedia, 0);
+  const perdaTotal  = perdaMensal * 12 * anosSemAumento;
+  const salIdealHoje = Math.round(salIdeal);
+
+  return { perdaTotal: Math.round(perdaTotal), perdaMensal: Math.round(perdaMensal),
+           salIdealHoje, anosSemAumento };
+}
+
+// ── CÁLCULO PRINCIPAL (atualizado) ───────────────────────
+let dadosCalculo = null; // guarda último cálculo para o slider
+let calculouUmaVez = false; // controla estado do botão
+
+// Detecta edição após cálculo — muda botão para "Recalcular"
+function onCampoEditado() {
+  if (!calculouUmaVez) return;
+  if (btnCalcState === 'editando') return;
+  setBtnCalcState('editando');
+}
+
+// ── FAIXAS DE PERCENTUAL DINÂMICO ────────────────────────
+// Quem ganha menos tem menos poder de negociação no mercado.
+// Os percentuais refletem a realidade de cada faixa salarial.
+const FAIXAS_PCT = [
+  { ate: 2500,  min: 5,  ideal: 8,  top: 12, label: 'até R$ 2.500'      },
+  { ate: 5000,  min: 10, ideal: 15, top: 20, label: 'R$ 2.500–5.000'    },
+  { ate: 10000, min: 12, ideal: 18, top: 25, label: 'R$ 5.000–10.000'   },
+  { ate: Infinity, min: 15, ideal: 20, top: 30, label: 'acima de R$ 10.000' },
+];
+
+function getPctsFaixa(salario) {
+  const faixa = FAIXAS_PCT.find(f => salario <= f.ate) || FAIXAS_PCT[FAIXAS_PCT.length - 1];
+  return faixa;
+}
+
+// ── BOTÃO CALCULAR — handler único e centralizado ─────────
+// Estado controlado por btnCalcState: 'inicial' | 'calculado' | 'editando'
+let btnCalcState = 'inicial';
+
+function setBtnCalcState(state) {
+  btnCalcState = state;
+  const btn = document.getElementById('btn-calc');
+  if (!btn) return;
+
+  // Remove estilos inline anteriores
+  btn.removeAttribute('style');
+
+  if (state === 'inicial') {
+    btn.innerHTML = `<span data-i="btnCalc">${langAtual === 'pt' ? 'Calcular quanto devo pedir' : 'Calculate my salary expectation'}</span><span class="arrow">→</span>`;
+  } else if (state === 'calculado') {
+    btn.innerHTML = `↺ <span>${langAtual === 'pt' ? 'Calcular de novo' : 'Start over'}</span>`;
+    btn.style.background = 'var(--surface)';
+    btn.style.color = 'var(--accent)';
+    btn.style.border = '2px solid var(--accent)';
+    btn.style.boxShadow = 'none';
+  } else if (state === 'editando') {
+    btn.innerHTML = `→ <span>${langAtual === 'pt' ? 'Recalcular' : 'Recalculate'}</span> <span class="arrow">↻</span>`;
+    btn.style.background = 'linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%)';
+    btn.style.color = '#D4A820';
+    btn.style.border = 'none';
+    btn.style.boxShadow = '0 4px 20px rgba(45,106,79,.3)';
+  }
+}
+
+document.getElementById('btn-calc').addEventListener('click', () => {
+  if (btnCalcState === 'calculado') {
+    // Limpa tudo e volta ao topo
+    limpar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => document.getElementById('sal-atual')?.focus(), 400);
+  } else {
+    // 'inicial' ou 'editando' — calcula
+    calcular();
+  }
+});
+document.querySelectorAll('input[type="text"]').forEach(inp => {
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') calcular(); });
+});
+
+function calcular() {
+  trackEvent('click_calcular');
+
+  const salAtual = parseBRL(document.getElementById('sal-atual').value);
+  if (salAtual <= 0) { shake(document.getElementById('sal-atual')); return; }
+
+  const simples     = getModo() === 'simples';
+  const comProposta = temProposta();
+  const urgAdj      = getUrgencyAdj();
+
+  // ── Benefícios e extras ATUAIS ────────────────────────
+  const vrAtual    = simples ? 0 : getVR('atual');
+  const vaAtual    = simples ? 0 : getVA('atual');
+  const benefAtual = simples ? 0 : getSomaBeneficios('atual');
+  const bonusAtual = simples ? 0 : getValorBonus('bonus', 'atual');
+  const plrAtual   = simples ? 0 : getValorBonus('plr',   'atual');
+  const extrasAtual = vrAtual + vaAtual + benefAtual + bonusAtual + plrAtual;
+  const totalAtual  = salAtual + extrasAtual;
+
+  // Mostra área de resultado
+  const adMeio      = document.getElementById('ad-meio');
+  const resultsArea = document.getElementById('results-area');
+  if (adMeio)      adMeio.style.display = '';
+  if (resultsArea) resultsArea.classList.add('active');
+
+  if (!comProposta) {
+    // ── CENÁRIO 1: Sem proposta ───────────────────────────
+    // Base = salário puro. Benefícios viram moeda de troca.
+    const faixa    = getPctsFaixa(salAtual);
+    const pctMin   = faixa.min   + urgAdj;
+    const pctIdeal = faixa.ideal + urgAdj;
+    const pctTop   = faixa.top   + urgAdj;
+    const base     = salAtual;
+    const pedMin   = base * (1 + pctMin   / 100);
+    const pedIdeal = base * (1 + pctIdeal / 100);
+    const pedTop   = base * (1 + pctTop   / 100);
+
+    // Conta de escola para Cenário 1
+    const breakdown = {
+      linhas: [
+        { label: 'Salário atual', valor: salAtual, tipo: 'base' },
+        ...(extrasAtual > 0 ? [{ label: 'Benefícios (moeda de troca)', valor: extrasAtual, tipo: 'nota' }] : []),
+      ],
+      base, baseLabel: 'Base de negociação',
+      pct: pctIdeal,
+      resultado: pedIdeal,
+      faixa,
+    };
+
+    dadosCalculo = { totalAtual, salAtual, extrasAtual, comProposta: false, faixa, breakdown };
+    renderResultado({
+      totalAtual, totalPropos: null, salAtual, extrasAtual,
+      difMensal: null, difAnual: null, aumento: null,
+      pedMin, pedIdeal, pedTop, urgAdj, faixa,
+      comProposta: false, salProposta: 0, breakdown
+    });
+    return;
+  }
+
+  // ── CENÁRIO 2: Com proposta ───────────────────────────
+  const salProposta  = parseBRL(document.getElementById('sal-proposta').value);
+  const vrProp       = simples ? 0 : getVR('proposta');
+  const vaProp       = simples ? 0 : getVA('proposta');
+  const benefProp    = simples ? 0 : getSomaBeneficios('proposta');
+  const bonusProp    = simples ? 0 : getValorBonus('bonus', 'proposta');
+  const plrProp      = simples ? 0 : getValorBonus('plr',   'proposta');
+  const extrasPropos = vrProp + vaProp + benefProp + bonusProp + plrProp;
+  const totalPropos  = salProposta + extrasPropos;
+
+  // Base correta: pacote atual - benefícios já cobertos pela proposta
+  const base        = totalAtual - extrasPropos;
+  const faixa       = getPctsFaixa(salAtual);
+  const pctMin      = faixa.min   + urgAdj;
+  const pctIdeal    = faixa.ideal + urgAdj;
+  const pctTop      = faixa.top   + urgAdj;
+  const pedMin      = base * (1 + pctMin   / 100);
+  const pedIdeal    = base * (1 + pctIdeal / 100);
+  const pedTop      = base * (1 + pctTop   / 100);
+
+  const difMensal   = totalPropos - totalAtual;
+  const difAnual    = difMensal * 12;
+  const aumento     = salProposta > 0
+    ? ((salProposta - salAtual) / salAtual) * 100
+    : null;
+
+  // Piso mínimo: nunca aceitar menos que o pacote atual
+  const pisoAbsoluto = totalAtual;
+
+  // Conta de escola para Cenário 2
+  const breakdown = {
+    linhas: [
+      { label: 'Salário atual',               valor: salAtual,     tipo: 'base' },
+      ...(extrasAtual  > 0 ? [{ label: 'Benefícios atuais (+)',      valor: extrasAtual,  tipo: 'add'  }] : []),
+      ...(extrasPropos > 0 ? [{ label: 'Benefícios da proposta (−)', valor: -extrasPropos, tipo: 'sub'  }] : []),
+    ],
+    base, baseLabel: 'Base de negociação',
+    pct: pctIdeal,
+    resultado: pedIdeal,
+    faixa, pisoAbsoluto,
+  };
+
+  dadosCalculo = { totalAtual, salAtual, extrasAtual, extrasPropos, totalPropos,
+                   aumento, difMensal, difAnual, salProposta, comProposta: true, faixa, breakdown };
+
+  renderResultado({ totalAtual, totalPropos, salAtual, extrasAtual, difMensal, difAnual,
+                    aumento, pedMin, pedIdeal, pedTop, urgAdj, faixa,
+                    extrasPropos, comProposta: true, salProposta, breakdown });
+}
+
+// ── ANIMAÇÃO DE CONTADOR ─────────────────────────────────
+/**
+ * Anima um elemento de 0 até o valor alvo em ~600ms.
+ * Usa requestAnimationFrame para ser suave e respeitar
+ * prefers-reduced-motion.
+ */
+function animateCounter(el, targetValue, duration = 600) {
+  // Respeita preferência de acessibilidade
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = moeda(targetValue);
+    return;
+  }
+  const start     = performance.now();
+  const startVal  = 0;
+  const range     = targetValue - startVal;
+
+  function step(now) {
+    const elapsed  = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Easing: ease-out cubic
+    const eased    = 1 - Math.pow(1 - progress, 3);
+    el.textContent = moeda(Math.round(startVal + range * eased));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+
+
+// ── RENDERIZAÇÃO ─────────────────────────────────────────
+function buildProseBlock(params) {
+  const { salAtual, extrasAtual, totalAtual, totalPropos, extrasPropos,
+          pedMin, pedIdeal, pedTop, difMensal, difAnual,
+          aumento, comProposta, salProposta, pt } = params;
+
+  if (!comProposta) {
+    const temBenef = (extrasAtual ?? 0) > 0;
+    // Pretensão ajustada = pedido + benefícios perdidos (se nova empresa não oferecer)
+    const pedIdealAjustado = pedIdeal + (extrasAtual ?? 0);
+    const pedTopAjustado   = pedTop   + (extrasAtual ?? 0);
+
+    const benefBlock = temBenef ? `
+    <p style="margin-top:12px;padding:12px 14px;background:var(--gold-dim);border-left:3px solid var(--gold);border-radius:0 var(--radius-xs) var(--radius-xs) 0;font-size:.85rem;color:var(--ink-2);line-height:1.6;">
+      💡 <strong style="color:var(--gold)">${pt ? `Se a nova empresa não oferecer seus benefícios atuais (${moeda(extrasAtual)}/mês)` : `If the new company doesn't offer your current benefits (${moeda(extrasAtual)}/mo)`}</strong>, ${pt ? `sua pretensão deve ser entre <strong class="num">${moeda(pedMin + extrasAtual)}</strong> e <strong class="num">${moeda(pedTopAjustado)}</strong> para compensar o que perderia.` : `your ask should be between <strong class="num">${moeda(pedMin + extrasAtual)}</strong> and <strong class="num">${moeda(pedTopAjustado)}</strong> to compensate.`}
+    </p>` : '';
+
+    return `<p>${pt ? `Com um salário de <strong class="num">${moeda(salAtual)}</strong>, você deve pedir entre <strong class="num">${moeda(pedMin)}</strong> e <strong class="num">${moeda(pedTop)}</strong> na sua próxima negociação.` : `With a salary of <strong class="num">${moeda(salAtual)}</strong>, you should ask between <strong class="num">${moeda(pedMin)}</strong> and <strong class="num">${moeda(pedTop)}</strong> in your next negotiation.`}</p>
+    <p style="margin-top:10px">${pt ? `O valor ideal é <strong class="num">${moeda(pedIdeal)}</strong> — suficiente para representar um aumento real sem assustar o recrutador.` : `The ideal figure is <strong class="num">${moeda(pedIdeal)}</strong> — enough to represent a real raise without scaring the recruiter.`}</p>
+    ${benefBlock}`;
+  }
+
+  // Cenário 2 — com proposta
+  const difM = difMensal ?? 0;
+  const difA = difAnual  ?? 0;
+  const aumPct = aumento ?? 0;
+  const sinalDif = difM >= 0 ? '+' : '';
+  const cls = aumPct >= 20 ? 'num-good' : aumPct >= 15 ? 'num-warn' : 'num-bad';
+
+  let veredictoInline = '';
+  if (salProposta > 0) {
+    if (aumPct >= 20)      veredictoInline = `<span class="res-inline-verdict good">✅ ${pt ? 'Vale a pena' : 'Worth it'}</span>`;
+    else if (aumPct >= 15) veredictoInline = `<span class="res-inline-verdict risk">⚠️ ${pt ? 'Zona de risco' : 'Risky zone'}</span>`;
+    else                   veredictoInline = `<span class="res-inline-verdict bad">🚫 ${pt ? 'Não vale a pena' : 'Not worth it'}</span>`;
+  }
+
+  const compareProse = salProposta > 0 ? `
+    <p>${pt
+      ? `A proposta oferece <strong class="num">${moeda(salProposta)}</strong> de salário${extrasPropos > 0 ? ` mais <strong>${moeda(extrasPropos)}</strong> em benefícios` : ' sem benefícios'} — um pacote total de <strong class="num ${cls}">${moeda(totalPropos)}</strong>.${veredictoInline}`
+      : `The offer is <strong class="num">${moeda(salProposta)}</strong> in salary${extrasPropos > 0 ? ` plus <strong>${moeda(extrasPropos)}</strong> in benefits` : ' with no benefits'} — a total package of <strong class="num ${cls}">${moeda(totalPropos)}</strong>.${veredictoInline}`
+    }</p>
+    <p style="margin-top:10px">${pt
+      ? `Comparando com o que você tem hoje (<strong>${moeda(totalAtual)}</strong>), isso representa <strong class="${difM >= 0 ? 'num-good' : 'num-bad'}">${sinalDif}${moeda(difM)}/mês</strong> — ou <strong class="${difM >= 0 ? 'num-good' : 'num-bad'}">${sinalDif}${moeda(difA)}/ano</strong>.`
+      : `Compared to what you have today (<strong>${moeda(totalAtual)}</strong>), that's <strong class="${difM >= 0 ? 'num-good' : 'num-bad'}">${sinalDif}${moeda(difM)}/mo</strong> — or <strong class="${difM >= 0 ? 'num-good' : 'num-bad'}">${sinalDif}${moeda(difA)}/year</strong>.`
+    }</p>` : '';
+
+  return `<p>${pt
+    ? `Seu pacote atual vale <strong class="num">${moeda(totalAtual)}</strong>/mês no total${extrasAtual > 0 ? ` (salário + ${moeda(extrasAtual)} em benefícios)` : ''}.`
+    : `Your current package is worth <strong class="num">${moeda(totalAtual)}</strong>/mo total${extrasAtual > 0 ? ` (salary + ${moeda(extrasAtual)} in benefits)` : ''}.`
+  }</p>
+  ${compareProse}
+  <p style="margin-top:10px">${pt
+    ? `Para essa troca valer a pena, você deve pedir entre <strong class="num">${moeda(pedMin)}</strong> e <strong class="num">${moeda(pedTop)}</strong>, sendo <strong class="num">${moeda(pedIdeal)}</strong> o ideal.`
+    : `For this move to be worth it, you should ask between <strong class="num">${moeda(pedMin)}</strong> and <strong class="num">${moeda(pedTop)}</strong>, with <strong class="num">${moeda(pedIdeal)}</strong> as the sweet spot.`
+  }</p>`;
+}
+
+function buildContaBlock(breakdown, pt) {
+  if (!breakdown) return '';
+
+  // Tradução dos labels das linhas
+  const labelMap = {
+    'Salário atual':               pt ? 'Salário atual'               : 'Current salary',
+    'Benefícios atuais (+)':       pt ? 'Benefícios atuais (+)'       : 'Current benefits (+)',
+    'Benefícios da proposta (−)':  pt ? 'Benefícios da proposta (−)'  : 'Offer benefits (−)',
+    'Benefícios (moeda de troca)': pt ? 'Benefícios (moeda de troca)' : 'Benefits (negotiation leverage)',
+  };
+
+  const linhasHtml = (breakdown.linhas || []).map(l => {
+    const s   = l.tipo === 'add' ? '+' : l.tipo === 'sub' ? '−' : ' ';
+    const cls = l.tipo === 'add' ? 'pos' : l.tipo === 'sub' ? 'neg' : '';
+    const label = labelMap[l.label] || l.label;
+    return `<div class="conta-linha">
+      <span class="conta-label">${label}</span>
+      <span class="conta-valor ${cls}">${s} ${moeda(Math.abs(l.valor))}</span>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="res-conta" id="res-conta">
+    <div class="conta-titulo">🧮 ${pt ? 'Como chegamos nisso' : 'How we calculated this'}</div>
+    ${linhasHtml}
+    <div class="conta-divisor"></div>
+    <div class="conta-linha conta-base">
+      <span class="conta-label">${pt ? 'Base de negociação' : 'Negotiation baseline'}</span>
+      <span class="conta-valor" id="conta-base-val">${moeda(breakdown.base)}</span>
+    </div>
+    <div class="conta-linha" id="conta-pct-linha">
+      <span class="conta-label" id="conta-pct-label">+ ${breakdown.pct.toFixed(0)}% ${pt ? 'de aumento' : 'increase'}</span>
+      <span class="conta-valor pos" id="conta-pct-val">+ ${moeda(breakdown.base * breakdown.pct / 100)}</span>
+    </div>
+    <div class="conta-divisor conta-divisor-double"></div>
+    <div class="conta-linha conta-resultado">
+      <span class="conta-label">${pt ? '= Pretensão ideal' : '= Your ideal ask'}</span>
+      <span class="conta-valor conta-destaque" id="conta-resultado-val">${moeda(breakdown.resultado)}</span>
+    </div>
+  </div>`;
+}
+
+function renderResultado({ totalAtual, totalPropos, salAtual, extrasAtual,
+                            difMensal, difAnual, aumento,
+                            pedMin, pedIdeal, pedTop, urgAdj, faixa,
+                            extrasPropos, comProposta, salProposta,
+                            breakdown, scrollToResult = true }) {
+  const el = document.getElementById('resultado');
+  const pt = langAtual === 'pt';
+
+  // Detecta veredito antecipado para ajustar script
+  const naoVale = comProposta && aumento !== null && aumento < 15;
+
+  // ── Textos ────────────────────────────────────────────
+  const scriptTxt = naoVale
+    ? (pt
+        ? `Poxa, adorei a oportunidade e fico animado com a empresa! Mas hoje tenho alguns benefícios aqui que fazem diferença no meu pacote. Para conseguir fazer essa transição, precisaria de algo em torno de ${moeda(pedIdeal)}. Existe alguma flexibilidade nisso?`
+        : `I'm really excited about this opportunity and the company! I do have some benefits in my current package that make a real difference. To make this move work, I'd need something around ${moeda(pedIdeal)}. Is there any flexibility on that?`)
+    : (pt
+        ? `Minha pretensão salarial é de ${moeda(pedIdeal)}. Cheguei nesse valor considerando meu pacote atual e o mercado para essa posição.`
+        : `My salary expectation is ${moeda(pedIdeal)}, based on my current compensation and market references for this role.`);
+
+  const pctIdeal = breakdown?.pct ?? 20;
+  const heroSub  = comProposta
+    ? (pt ? `Pacote atual: ${moeda(totalAtual)} · aumento ideal: +${pctIdeal.toFixed(0)}%`
+          : `Current package: ${moeda(totalAtual)} · ideal increase: +${pctIdeal.toFixed(0)}%`)
+    : (pt ? `Salário de ${moeda(salAtual)} · faixa: ${faixa?.label ?? ''} · +${pctIdeal.toFixed(0)}%`
+          : `Salary of ${moeda(salAtual)} · range: ${faixa?.label ?? ''} · +${pctIdeal.toFixed(0)}%`);
+
+  // Aviso piso absoluto (cenário 2 — nunca aceitar menos que o pacote atual)
+  const pisoBlock = (comProposta && breakdown?.pisoAbsoluto) ? `
+    <div class="res-piso" role="alert">
+      <span>⚠️</span>
+      <span>${pt
+        ? `Abaixo de <strong>${moeda(breakdown.pisoAbsoluto)}</strong>/mês você estaria ganhando menos que hoje — independente do salário na carteira.`
+        : `Below <strong>${moeda(breakdown.pisoAbsoluto)}</strong>/mo you'd earn less than today — regardless of the salary on paper.`
+      }</span>
+    </div>` : '';
+
+  // ── Prose block ───────────────────────────────────────
+  const proseHtml = buildProseBlock({
+    salAtual, extrasAtual: extrasAtual ?? 0, totalAtual,
+    totalPropos, extrasPropos: extrasPropos ?? 0,
+    pedMin, pedIdeal, pedTop, difMensal, difAnual,
+    aumento, comProposta, salProposta, pt
+  });
+
+  // ── Conta block ───────────────────────────────────────
+  const contaHtml = buildContaBlock(breakdown, pt);
+
+  // ── Moeda de troca ────────────────────────────────────
+  const extraTotal = extrasAtual ?? 0;
+  const tradeBlock = (!comProposta && extraTotal > 0 && getModo() !== 'simples') ? `
+    <div class="res-trade" role="note">
+      <div class="res-trade-icon">💡</div>
+      <div>
+        <div class="res-trade-label">${pt ? 'Seus benefícios como moeda de troca' : 'Leverage your current benefits'}</div>
+        <p class="res-trade-text">${pt
+          ? `Você tem <strong>${moeda(extraTotal)}/mês</strong> em benefícios. Se a nova empresa oferecer menos, use isso: <em>"Meu pacote atual inclui ${moeda(extraTotal)}/mês em benefícios — preciso compensar isso no salário."</em>`
+          : `You have <strong>${moeda(extraTotal)}/mo</strong> in benefits. If the new offer has a weaker package: <em>"My current package includes ${moeda(extraTotal)}/mo in benefits — I need to compensate that in salary."</em>`
+        }</p>
+      </div>
+    </div>` : '';
+
+  const urgCfg = getUrgCfg(urgencyLevel);
+
+  // Hero gradient e labels baseados no veredito
+  const heroGradient = naoVale
+    ? 'background: linear-gradient(140deg, #3D1A1A 0%, #7A2E2E 60%, #5C2020 100%);'
+    : 'background: linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%);';
+  const heroLabel = naoVale
+    ? (pt ? 'Para essa proposta valer a pena, você precisaria pedir' : 'For this offer to be worth it, you\'d need to ask for')
+    : (pt ? 'Sua pretensão salarial' : 'Your salary expectation');
+  const heroSubFinal = naoVale
+    ? (pt ? `A proposta atual de ${moeda(salProposta)} não compensa. Negocie ou recuse.` : `The current offer of ${moeda(salProposta)} is not worth it. Negotiate or decline.`)
+    : heroSub;
+
+  // ── HTML ──────────────────────────────────────────────
+  el.innerHTML = `
+    <div class="res-card">
+
+      <div class="res-hero" role="region" style="${heroGradient}"
+           aria-label="${pt ? 'Resultado: sua pretensão salarial' : 'Result: your salary expectation'}">
+        <div class="res-hero-label">${heroLabel}</div>
+        <div class="res-hero-amount" aria-live="polite">
+          <span id="counter-hero" aria-label="${pt ? `Valor ideal: ${moeda(pedIdeal)}` : `Ideal value: ${moeda(pedIdeal)}`}">R$ 0</span>
+        </div>
+        <div class="res-hero-sub">${heroSubFinal}</div>
+      </div>
+
+      <div class="res-tiers">
+        <div class="res-tier tier-min">
+          <div class="tier-label">${pt ? 'Mínimo' : 'Minimum'}</div>
+          <div class="tier-pct" id="tier-pct-min">+${(breakdown?.pct - (faixa?.ideal - faixa?.min) ?? 15).toFixed(0)}%</div>
+          <div class="tier-val" id="tier-val-min">${moeda(pedMin)}</div>
+        </div>
+        <div class="res-tier tier-ideal">
+          <div class="tier-label">${pt ? 'Ideal' : 'Ideal'}</div>
+          <div class="tier-pct" id="tier-pct-ideal">+${(breakdown?.pct ?? 20).toFixed(0)}%</div>
+          <div class="tier-val" id="tier-val-ideal">${moeda(pedIdeal)}</div>
+        </div>
+        <div class="res-tier tier-top">
+          <div class="tier-label">${pt ? 'Agressivo' : 'Aggressive'}</div>
+          <div class="tier-pct" id="tier-pct-top">+${(breakdown?.pct + (faixa?.top - faixa?.ideal) ?? 25).toFixed(0)}%</div>
+          <div class="tier-val" id="tier-val-top">${moeda(pedTop)}</div>
+        </div>
+      </div>
+
+      ${pisoBlock}
+
+      <div class="res-prose" id="res-prose">
+        <div class="res-prose-text">${proseHtml}</div>
+      </div>
+
+      ${contaHtml}
+
+      <!-- Opção de incluir benefícios — aparece só no modo simples E sem benefícios preenchidos -->
+      ${getModo() === 'simples' ? `
+      <div class="res-benef-toggle" id="res-benef-toggle">
+        <span>${pt ? TEXTOS.pt.resBenefsToggle : TEXTOS.en.resBenefsToggle}</span>
+        <button onclick="ativarModoCompleto()">${pt ? TEXTOS.pt.resBenefsBtn : TEXTOS.en.resBenefsBtn}</button>
+      </div>` : ''}
+
+      <div class="res-urgency" role="group" aria-labelledby="urg-label-inline">
+        <div class="res-urgency-header">
+          <span class="res-urgency-label" id="urg-label-inline">
+            ${pt ? 'Você precisa muito sair?' : 'How badly do you need to leave?'}
+          </span>
+          <span class="res-urgency-val cls-${urgCfg.cls}" id="urgency-val-txt" aria-live="polite">
+            ${urgCfg.label}
+          </span>
+        </div>
+        <input type="range" id="urgency-slider" min="1" max="5" step="1"
+               value="${urgencyLevel}"
+               aria-label="${pt ? 'Nível de urgência de 1 a 5' : 'Urgency level 1 to 5'}" />
+        <div class="res-urgency-labels">
+          <span>${pt ? 'Nenhuma' : 'None'}</span>
+          <span>${pt ? 'Urgente' : 'Urgent'}</span>
+        </div>
+        <div class="urgency-note ${urgCfg.cls}" id="urgency-note" aria-live="polite">
+          ${urgCfg.note}
+        </div>
+      </div>
+
+      <div class="res-script">
+        <div class="script-label">${naoVale
+          ? (pt ? TEXTOS.pt.resScriptLabelNeg : TEXTOS.en.resScriptLabelNeg)
+          : (pt ? TEXTOS.pt.resScriptLabel    : TEXTOS.en.resScriptLabel)
+        }</div>
+        <div class="script-box" id="script-txt">${scriptTxt}</div>
+        <button class="btn-copy" id="btn-copy">
+          ${pt ? TEXTOS.pt.resCopyBtn : TEXTOS.en.resCopyBtn}
+        </button>
+      </div>
+
+      ${tradeBlock}
+
+    </div>
+  `;
+
+  // ── Animação ──────────────────────────────────────────
+  el.classList.remove('visible');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    el.classList.add('visible');
+    const counterEl = document.getElementById('counter-hero');
+    if (counterEl) animateCounter(counterEl, pedIdeal, 700);
+  }));
+
+  // ── Cards auxiliares ──────────────────────────────────
+  setTimeout(() => {
+    ['card-share', 'card-feedback'].forEach((id, i) => {
+      const c = document.getElementById(id);
+      if (!c) return;
+      setTimeout(() => c.classList.add('visible'), i * 80);
+    });
+  }, 200);
+
+  // ── Botão → estado "calculado" ───────────────────────
+  calculouUmaVez = true;
+  setBtnCalcState('calculado');
+
+  // ── Scroll ────────────────────────────────────────────
+  if (scrollToResult) {
+    setTimeout(() => {
+      const container = document.getElementById('results-area');
+      if (container) {
+        // Scroll para o container, com offset para não ficar colado no topo
+        const y = container.getBoundingClientRect().top + window.scrollY - 16;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 80);
+  }
+
+  // ── Urgência: usa delegação global — sem acúmulo de listeners ──
+  // (listener registrado uma vez fora do renderResultado)
+
+  // ── Copiar script ─────────────────────────────────────
+  document.getElementById('btn-copy')?.addEventListener('click', async () => {
+    const el = document.getElementById('script-txt');
+    const txt = el?.innerText || el?.textContent || '';
+    try {
+      await navigator.clipboard.writeText(txt);
+      showSnackbar(langAtual === 'pt' ? '✓ Copiado! É só colar no WhatsApp ou LinkedIn.' : '✓ Copied! Just paste it on WhatsApp or LinkedIn.');
+    } catch(e) {
+      // Fallback para browsers sem permissão de clipboard
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showSnackbar(langAtual === 'pt' ? '✓ Copiado!' : '✓ Copied!');
+    }
+    trackEvent('click_copiar_script');
+  });
+
+  wireShareButtons(pedIdeal, langAtual === 'pt');
+  trackEvent('resultado_exibido');
+}
+
+// ── SNACKBAR ──────────────────────────────────────────────
+function showSnackbar(msg) {
+  let sb = document.getElementById('snackbar');
+  if (!sb) {
+    sb = document.createElement('div');
+    sb.id = 'snackbar';
+    sb.style.cssText = `
+      position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+      background:var(--ink);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);
+      font-size:.82rem;font-weight:500;font-family:var(--fb);
+      box-shadow:0 4px 20px rgba(0,0,0,.25);z-index:200;
+      opacity:0;transition:opacity .2s,transform .2s;white-space:nowrap;
+    `;
+    document.body.appendChild(sb);
+  }
+  sb.textContent = msg;
+  requestAnimationFrame(() => {
+    sb.style.opacity = '1';
+    sb.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  clearTimeout(sb._timer);
+  sb._timer = setTimeout(() => {
+    sb.style.opacity = '0';
+    sb.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 3000);
+}
+
+// ── URGENCY SLIDER DO RESULTADO — delegação global ───────
+// Registrado UMA VEZ. Não acumula a cada re-render.
+document.addEventListener('mousedown', e => { if (e.target.id === 'urgency-slider') sliderInteracting = true; });
+document.addEventListener('touchstart', e => { if (e.target.id === 'urgency-slider') sliderInteracting = true; }, { passive: true });
+document.addEventListener('mouseup',   () => { setTimeout(() => { sliderInteracting = false; }, 400); });
+document.addEventListener('touchend',  () => { setTimeout(() => { sliderInteracting = false; }, 400); });
+
+document.addEventListener('input', e => {
+  if (e.target.id !== 'urgency-slider') return;
+  urgencyLevel = parseInt(e.target.value, 10);
+  const cfg = getUrgCfg(urgencyLevel);
+  if (!cfg || !dadosCalculo) return;
+
+  const elById = id => document.getElementById(id);
+  const valEl  = elById('urgency-val-txt');
+  const noteEl = elById('urgency-note');
+  if (valEl)  { valEl.textContent = cfg.label; valEl.className = `res-urgency-val cls-${cfg.cls}`; }
+  if (noteEl) { noteEl.textContent = cfg.note;  noteEl.className = `urgency-note ${cfg.cls}`; }
+
+  const sal = dadosCalculo.salAtual;
+  const faixa = dadosCalculo.faixa || getPctsFaixa(sal);
+  const pctMin   = faixa.min   + cfg.adj;
+  const pctIdeal = faixa.ideal + cfg.adj;
+  const pctTop   = faixa.top   + cfg.adj;
+  const newMin   = sal * (1 + pctMin   / 100);
+  const newIdeal = sal * (1 + pctIdeal / 100);
+  const newTop   = sal * (1 + pctTop   / 100);
+
+  if (elById('tier-val-min'))   elById('tier-val-min').textContent   = moeda(newMin);
+  if (elById('tier-val-ideal')) elById('tier-val-ideal').textContent = moeda(newIdeal);
+  if (elById('tier-val-top'))   elById('tier-val-top').textContent   = moeda(newTop);
+  if (elById('tier-pct-min'))   elById('tier-pct-min').textContent   = `+${pctMin.toFixed(0)}%`;
+  if (elById('tier-pct-ideal')) elById('tier-pct-ideal').textContent = `+${pctIdeal.toFixed(0)}%`;
+  if (elById('tier-pct-top'))   elById('tier-pct-top').textContent   = `+${pctTop.toFixed(0)}%`;
+
+  const heroEl = elById('counter-hero');
+  if (heroEl) animateCounter(heroEl, newIdeal, 300);
+
+  const heroSub = document.querySelector('.res-hero-sub');
+  if (heroSub) heroSub.textContent = dadosCalculo.comProposta
+    ? `${langAtual === 'pt' ? 'Pacote atual' : 'Current package'}: ${moeda(dadosCalculo.totalAtual)} · ${langAtual === 'pt' ? 'aumento ideal' : 'ideal increase'}: +${pctIdeal.toFixed(0)}%`
+    : `${langAtual === 'pt' ? 'Baseado no seu salário de' : 'Based on salary of'} ${moeda(sal)} · +${pctIdeal.toFixed(0)}%${cfg.adj !== 0 ? (langAtual === 'pt' ? ' (ajustado pela urgência)' : ' (urgency-adjusted)') : ''}`;
+
+  const base = dadosCalculo.breakdown?.base ?? sal;
+  const contaPct  = elById('conta-pct-label');
+  const contaPctV = elById('conta-pct-val');
+  const contaRes  = elById('conta-resultado-val');
+  if (contaPct)  contaPct.textContent  = `+ ${pctIdeal.toFixed(0)}% ${langAtual === 'pt' ? 'de aumento' : 'increase'}`;
+  if (contaPctV) contaPctV.textContent = `+ ${moeda(base * pctIdeal / 100)}`;
+  if (contaRes)  animateCounter(contaRes, newIdeal, 300);
+
+  const proseEl = elById('res-prose');
+  if (proseEl) proseEl.querySelector('.res-prose-text').innerHTML = buildProseBlock({
+    salAtual: sal, extrasAtual: dadosCalculo.extrasAtual ?? 0,
+    totalAtual: dadosCalculo.totalAtual, totalPropos: dadosCalculo.totalPropos,
+    extrasPropos: dadosCalculo.extrasPropos ?? 0,
+    pedMin: newMin, pedIdeal: newIdeal, pedTop: newTop,
+    difMensal: dadosCalculo.difMensal, difAnual: dadosCalculo.difAnual,
+    aumento: dadosCalculo.aumento, comProposta: dadosCalculo.comProposta,
+    salProposta: dadosCalculo.salProposta, pt: langAtual === 'pt'
+  });
+
+  const scriptEl = elById('script-txt');
+  if (scriptEl) scriptEl.textContent = langAtual === 'pt'
+    ? `Minha pretensão salarial é de ${moeda(newIdeal)}. Cheguei nesse valor considerando meu pacote atual e o mercado para essa posição.`
+    : `My salary expectation is ${moeda(newIdeal)}, based on my current compensation and market references for this role.`;
+});
+
+// ── COPY via delegação ────────────────────────────────────
+document.addEventListener('click', async e => {
+  if (!e.target.closest('#btn-copy')) return;
+  const el = document.getElementById('script-txt');
+  const txt = el?.innerText || el?.textContent || '';
+  try {
+    await navigator.clipboard.writeText(txt);
+  } catch(err) {
+    const ta = document.createElement('textarea');
+    ta.value = txt; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  showSnackbar(langAtual === 'pt' ? '✓ Copiado! É só colar no WhatsApp ou LinkedIn.' : '✓ Copied! Just paste it on WhatsApp or LinkedIn.');
+  trackEvent('click_copiar_script');
+});
+
+// ── SHARE & FEEDBACK (elementos persistentes no DOM) ─────
+
+function wireShareButtons(pedIdeal, pt) {
+  // Usa a URL real do site — fallback para Netlify se estiver local
+  const siteUrl = (window.location.href.startsWith('http') && !window.location.href.includes('srcdoc'))
+    ? window.location.href
+    : 'https://quantopedir.com.br/';
+
+  const shareMsg = pt
+    ? `Ei! Lembrei de você quando vi isso aqui — você já viu esse site que ajuda a definir a pretensão salarial? ${siteUrl}`
+    : `Hey! Thought of you — have you seen this tool that helps you figure out your salary expectation? ${siteUrl}`;
+
+  // Botão copiar mensagem
+  const copyMsgBtn = document.getElementById('btn-copy-msg');
+  if (copyMsgBtn) {
+    const newBtn = copyMsgBtn.cloneNode(true);
+    copyMsgBtn.parentNode.replaceChild(newBtn, copyMsgBtn);
+    newBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(shareMsg);
+      } catch(e) {
+        const ta = document.createElement('textarea');
+        ta.value = shareMsg; ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      showSnackbar(pt ? '✓ Mensagem copiada! Cola no WhatsApp ou LinkedIn.' : '✓ Copied! Paste it anywhere.');
+      trackEvent('click_copiar_mensagem');
+    });
+  }
+
+  // Botão share nativo
+  const nativeBtn = document.getElementById('btn-share-native');
+  if (nativeBtn) {
+    const newNative = nativeBtn.cloneNode(true);
+    nativeBtn.parentNode.replaceChild(newNative, nativeBtn);
+    newNative.addEventListener('click', () => {
+      if (navigator.share) {
+        navigator.share({
+          title: pt ? 'Calculadora de Pretensão Salarial' : 'Salary Negotiation Tool',
+          text: shareMsg
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareMsg).catch(() => {});
+        showSnackbar(pt ? '✓ Link copiado!' : '✓ Link copied! Share it anywhere.');
+      }
+      trackEvent('click_compartilhar');
+    });
+  }
+}
+
+// Feedback — listener persistente (elemento sempre no DOM)
+document.getElementById('feedback-emojis')?.addEventListener('click', e => {
+  const btn = e.target.closest('.fb-btn');
+  if (!btn) return;
+  document.querySelectorAll('.fb-btn').forEach(b => {
+    b.classList.remove('selected');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('selected');
+  btn.setAttribute('aria-pressed', 'true');
+  trackEvent(`feedback_${btn.dataset.score}`);
+  const thanks = document.getElementById('feedback-thanks');
+  if (thanks) {
+    const score = parseInt(btn.dataset.score, 10);
+    const msg = langAtual === 'pt'
+      ? (score === 5 ? '🎉 Que ótimo! Boa sorte na negociação!' :
+         score === 3 ? '🙏 Obrigado pelo feedback!'            :
+                       '😔 Obrigado. Vou melhorar a ferramenta.')
+      : (score === 5 ? '🎉 Great! Good luck with your negotiation!' :
+         score === 3 ? '🙏 Thanks for the feedback!'               :
+                       '😔 Thanks. I\'ll work on improving this.');
+    thanks.textContent = msg;
+    thanks.classList.add('show');
+  }
+});
+
+// ── LIMPAR ───────────────────────────────────────────────
+function limpar() {
+  trackEvent('click_limpar');
+  // Reseta inputs de texto
+  document.querySelectorAll('input[type="text"]').forEach(inp => {
+    inp.value = ''; inp.disabled = false;
+    inp.classList.remove('has-value');
+  });
+  // Reseta checkboxes e radios
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+  document.querySelectorAll('input[type="radio"][value="fixo"]').forEach(r => { r.checked = true; });
+  // Fecha painéis expandíveis de bônus/PLR
+  document.querySelectorAll('.bonus-options').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.bonus-val-wrap').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.bonus-block').forEach(el => el.classList.remove('active'));
+  // Restaura modo simples
+  setModo('simples');
+  // Fecha benefícios progressivos
+  ['vrva-atual','benef-atual','vrva-proposta','benef-proposta'].forEach(id => {
+    document.getElementById(id)?.classList.remove('benef-visible');
+  });
+  document.getElementById('benef-hint-atual')?.classList.remove('show');
+  document.getElementById('benef-hint-proposta')?.classList.remove('show');
+  // Fecha o card de proposta via toggle
+  setToggleProposta(false);
+  // Esconde banner intermediário e área de resultado
+  const adMeio = document.getElementById('ad-meio');
+  if (adMeio) adMeio.style.display = 'none';
+  document.getElementById('results-area')?.classList.remove('active');
+  ['card-share', 'card-feedback'].forEach(id => {
+    document.getElementById(id)?.classList.remove('visible');
+  });
+  // Limpa estado de feedback
+  document.querySelectorAll('.fb-btn').forEach(b => b.classList.remove('selected'));
+  const thanks = document.getElementById('feedback-thanks');
+  if (thanks) { thanks.textContent = ''; thanks.classList.remove('show'); }
+  // Oculta resultado com fade
+  const res = document.getElementById('resultado');
+  res.classList.remove('visible');
+  setTimeout(() => { res.innerHTML = ''; }, 380);
+  // Restaura botão calcular — estado 1
+  calculouUmaVez = false;
+  setBtnCalcState('inicial');
+
+  urgencyLevel = 3;
+  const formSlider = document.getElementById('form-urgency-slider');
+  if (formSlider) { formSlider.value = 3; formSlider.dispatchEvent(new Event('input')); }
+  document.querySelectorAll('.urgency-opt').forEach((b, i) => b.classList.toggle('active', i === 0));
+  dadosCalculo = null;
+}
+
+// ── SHAKE ────────────────────────────────────────────────
+function shake(el) {
+  if (!el) return;
+  const seq = [6,-6,4,-4,2,-2,0]; let i = 0;
+  el.style.transition = 'transform .08s';
+  const run = () => {
+    if (i >= seq.length) { el.style.transform = ''; el.style.borderColor = ''; return; }
+    el.style.transform = `translateX(${seq[i]}px)`;
+    el.style.borderColor = 'var(--danger)'; i++;
+    setTimeout(run, 60);
+  };
+  run(); el.focus();
+}
+
+// ── BANNER LGPD ──────────────────────────────────────────
+(function() {
+  const COOKIE_KEY = 'cookie_ok_v2'; // muda a versão para forçar re-exibição
+  const banner    = document.getElementById('cookie-banner');
+  const okBtn     = document.getElementById('btn-cookie-ok');
+  const stickyBar = document.querySelector('.sticky-bar');
+  if (!banner) return;
+
+  function showBanner() {
+    banner.classList.add('show');
+    requestAnimationFrame(() => {
+      const h = banner.offsetHeight;
+      document.documentElement.style.setProperty('--cookie-h', h + 'px');
+      stickyBar?.classList.add('with-banner');
+    });
+  }
+
+  function hideBanner() {
+    banner.classList.remove('show');
+    stickyBar?.classList.remove('with-banner');
+    document.documentElement.style.removeProperty('--cookie-h');
+  }
+
+  try {
+    if (!localStorage.getItem(COOKIE_KEY)) {
+      setTimeout(showBanner, 1500);
+    }
+  } catch(e) {
+    setTimeout(showBanner, 1500);
+  }
+
+  okBtn?.addEventListener('click', () => {
+    hideBanner();
+    try { localStorage.setItem(COOKIE_KEY, '1'); } catch(e) {}
+  });
+})();
+
+// ── BOTÃO CALCULAR DE NOVO ───────────────────────────────
+document.getElementById('btn-restart')?.addEventListener('click', () => {
+  limpar();
+  // Scroll suave para o topo da página
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Foca no primeiro input para facilitar nova entrada
+  setTimeout(() => document.getElementById('sal-atual')?.focus(), 400);
+  trackEvent('click_calcular_denovo');
+});
+
+// ── MODAL "COMO FOI FEITO" ───────────────────────────────
+const storyOverlay = document.getElementById('story-overlay');
+
+document.getElementById('btn-story')?.addEventListener('click', () => {
+  storyOverlay?.classList.add('open');
+  trackEvent('click_como_foi_feito');
+});
+
+document.getElementById('story-close')?.addEventListener('click', () => {
+  storyOverlay?.classList.remove('open');
+});
+
+storyOverlay?.addEventListener('click', e => {
+  if (e.target === storyOverlay) storyOverlay.classList.remove('open');
+});
+
+// ── MODAL DE ESTIMATIVAS ─────────────────────────────────
+const overlay = document.getElementById('modal-overlay');
+function openModal()  { overlay.classList.add('open');    trackEvent('click_estimativa'); }
+function closeModal() { overlay.classList.remove('open'); }
+
+document.getElementById('ajuda-atual')?.addEventListener('click', openModal);
+document.getElementById('ajuda-proposta')?.addEventListener('click', openModal);
+document.getElementById('ajuda-atual')?.addEventListener('keydown', e => e.key === 'Enter' && openModal());
+document.getElementById('ajuda-proposta')?.addEventListener('keydown', e => e.key === 'Enter' && openModal());
+document.getElementById('modal-close')?.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    storyOverlay?.classList.remove('open');
+  }
+});
+
+</script>
+</body>
+</html>
