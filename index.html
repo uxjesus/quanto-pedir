@@ -68,32 +68,50 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6972470739865912" crossorigin="anonymous"></script>
+  <!-- Verificação do AdSense (não carrega anúncio nem cookie) -->
+  <meta name="google-adsense-account" content="ca-pub-6972470739865912" />
 
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wgq3jrot0i");
-  </script>
-
-  <!-- ── Google Analytics GA4 ─────────────────────────── -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLQBP1DNEC"></script>
+  <!-- Medição e anúncios: só carregam depois que a pessoa aceita (LGPD) -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-CLQBP1DNEC', {
-      anonymize_ip: true,
-      allow_google_signals: false,
-      allow_ad_personalization_signals: false
-    });
-    // Helper seguro — nunca quebra o app
+    window.__trk = false;
+    // Slot do AdSense: preencher quando o Google aprovar o site e a unidade for criada
+    var AD_CLIENT = 'ca-pub-6972470739865912';
+    var AD_SLOTS  = { meio: '' };
     function trackEvent(n, p) {
+      if (!window.__trk) return;
       try { gtag('event', n, p || {}); } catch(e) {}
+    }
+    function loadTrackers() {
+      if (window.__trk) return;
+      window.__trk = true;
+      if (window.__trkLoaded) { try { if (typeof window.clarity === 'function') window.clarity('consent'); } catch(e) {} return; }
+      window.__trkLoaded = true;
+      // Oculta os valores digitados nas gravações do Clarity
+      try {
+        document.querySelectorAll('input,select,textarea,#results-area').forEach(function(el){ el.setAttribute('data-clarity-mask', 'True'); });
+      } catch(e) {}
+      // Google Analytics 4 (IP anonimizado, sem sinais de anúncio)
+      var g = document.createElement('script');
+      g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=G-CLQBP1DNEC';
+      document.head.appendChild(g);
+      gtag('js', new Date());
+      gtag('config', 'G-CLQBP1DNEC', { allow_google_signals: false, allow_ad_personalization_signals: false });
+      // Microsoft Clarity
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "wgq3jrot0i");
+      // Google AdSense: só se já existir uma unidade de anúncio configurada
+      if (AD_SLOTS.meio) {
+        var a = document.createElement('script');
+        a.async = true; a.crossOrigin = 'anonymous';
+        a.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + AD_CLIENT;
+        document.head.appendChild(a);
+        if (window.initAds) window.initAds();
+      }
     }
   </script>
 
@@ -110,16 +128,16 @@
     --surface:     #FFFFFF;
     --ink:         #1A2E1A;        /* quase preto com toque verde */
     --ink-2:       #354535;
-    --ink-muted:   #5A6E5A;        /* WCAG AA 4.5:1 */
-    --accent:      #2D6A4F;        /* verde-floresta — cor primária */
-    --accent-mid:  #388E68;
-    --accent-dim:  rgba(45,106,79,.1);
+    --ink-muted:   #384B38;        /* AAA 7:1 sobre branco, creme e gradiente lateral */
+    --accent:      #1F5A41;        /* verde-floresta — AAA 7:1 */
+    --accent-mid:  #256346;
+    --accent-dim:  rgba(31,90,65,.1);
     --accent-deep: #1F4D38;
-    --success:     #2D6A4F;
+    --success:     #1F5A41;
     --success-dim: rgba(45,106,79,.08);
-    --warn:        #92400E;
+    --warn:        #7A3609;
     --warn-dim:    #FEF3CD;
-    --danger:      #B91C1C;
+    --danger:      #7F1D1D;
     --danger-dim:  #FEE2E2;
     --border:      rgba(45,106,79,.15);
     --border-2:    rgba(45,106,79,.28);
@@ -166,7 +184,7 @@
     -webkit-font-smoothing: antialiased;
     /* Gradiente nas laterais */
     background-image:
-      linear-gradient(to right, rgba(26,61,43,.08) 0%, transparent 18%),
+      linear-gradient(to right, rgba(26,61,43,.05) 0%, transparent 18%),
       linear-gradient(to left,  rgba(184,134,11,.06) 0%, transparent 18%);
   }
 
@@ -190,18 +208,13 @@
   .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; padding: 12px 18px 24px; background: linear-gradient(to top, var(--bg) 72%, transparent); transition: bottom .3s var(--ease); }
 
   /* ════════════════════════════════════════════
-     BANNER DE ANÚNCIO
+     ANÚNCIO — só ocupa espaço quando há anúncio real
   ════════════════════════════════════════════ */
-  .ad-banner {
-    background: var(--surface);
-    border: 1.5px dashed var(--border);
-    border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    gap: 8px; padding: 13px;
-    color: var(--ink-muted);
-    font-size: .72rem; font-weight: 500;
-    letter-spacing: .05em; text-transform: uppercase;
-    margin: 18px 0 0;
+  .ad-slot { padding-top: 16px; }
+  .ad-slot:not(.ad-on) { height: 0; overflow: hidden; padding: 0; margin: 0; visibility: hidden; }
+  .ad-label {
+    font-size: .72rem; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 6px;
   }
   .ad-above-btn { margin: 0 0 10px; }
 
@@ -450,7 +463,7 @@
     display: block; font-size: .78rem; font-weight: 500;
     color: var(--ink-muted); margin-bottom: 6px;
   }
-  .field > label .opt { font-weight: 400; font-size: .7rem; opacity: .6; margin-left: 3px; }
+  .field > label .opt { font-weight: 400; font-size: .7rem; margin-left: 3px; color: var(--ink-muted); }
 
   .input-wrap { position: relative; display: flex; align-items: center; }
 
@@ -470,7 +483,7 @@
     transition: border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
     -webkit-appearance: none;
   }
-  .input-wrap input[type="text"]::placeholder { color: var(--border-2); font-weight: 400; }
+  .input-wrap input[type="text"]::placeholder { color: var(--ink-muted); font-weight: 400; font-style: italic; opacity: 1; }
   .input-wrap input[type="text"]:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(0,168,120,.1);
@@ -593,8 +606,8 @@
   .btn-calc {
     display: flex; align-items: center; justify-content: center; gap: 10px;
     width: 100%; padding: 17px 24px;
-    background: linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%);
-    color: #D4A820; border: none;
+    background: linear-gradient(140deg, #14301F 0%, #18412B 65%, #153824 100%);
+    color: #FADF8A; border: none;
     border-radius: var(--radius-sm);
     font-family: var(--fh); font-size: 1rem; font-weight: 800;
     cursor: pointer; letter-spacing: -.01em;
@@ -602,7 +615,7 @@
     transition: transform var(--t) var(--ease), opacity var(--t) var(--ease);
   }
   .btn-calc:active { transform: scale(.97); opacity: .92; }
-  .btn-calc .arrow { transition: transform var(--t) var(--ease); display: inline-block; color: #D4A820; }
+  .btn-calc .arrow { transition: transform var(--t) var(--ease); display: inline-block; color: #FADF8A; }
   .btn-calc:hover .arrow { transform: translateX(4px); }
 
   /* ════════════════════════════════════════════
@@ -643,7 +656,7 @@
   }
 
   .res-hero {
-    background: linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%);
+    background: linear-gradient(140deg, #14301F 0%, #18412B 65%, #153824 100%);
     padding: 32px 22px 26px;
     color: #fff;
     position: relative; overflow: hidden;
@@ -652,7 +665,7 @@
     content: '';
     position: absolute; bottom: -20px; right: -20px;
     width: 160px; height: 160px;
-    background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,.03) 0%, transparent 70%);
     pointer-events: none;
   }
   .res-hero-label {
@@ -662,7 +675,7 @@
   .res-hero-amount {
     font-family: var(--fh); font-size: clamp(2.4rem, 10vw, 3.2rem);
     font-weight: 800; letter-spacing: -.04em; line-height: 1;
-    color: #D4A820;
+    color: #FADF8A;
     text-shadow: 0 2px 16px rgba(196,146,10,.3);
   }
   .res-hero-sub { font-size: .78rem; opacity: .6; margin-top: 10px; line-height: 1.5; }
@@ -799,7 +812,7 @@
   }
   .urgency-note.low  { background: var(--success-dim); color: var(--success); }
   .urgency-note.mid  { background: var(--accent-dim);  color: var(--accent-deep); }
-  .urgency-note.warn { background: #FEE9CC;             color: #92350A; }
+  .urgency-note.warn { background: #FEE9CC;             color: #7A3609; }
   .urgency-note.high { background: var(--danger-dim);  color: var(--danger); }
 
   /* ── Script de fala ──────────────────────── */
@@ -843,7 +856,7 @@
   .btn-share-native:hover { opacity: .82; }
   .btn-linkedin {
     display: inline-flex; align-items: center; gap: 8px;
-    background: #0A66C2; color: #fff; border: none; border-radius: var(--radius-xs);
+    background: #0A559F; color: #fff; border: none; border-radius: var(--radius-xs);
     font-family: var(--fb); font-size: .82rem; font-weight: 600;
     padding: 10px 16px; cursor: pointer; text-decoration: none; transition: opacity var(--t) var(--ease);
   }
@@ -1054,7 +1067,7 @@
   /* Label muda de cor conforme urgência */
   .res-urgency-val.cls-low  { color: var(--success); }
   .res-urgency-val.cls-mid  { color: var(--accent);  }
-  .res-urgency-val.cls-warn { color: #C2460A;         }
+  .res-urgency-val.cls-warn { color: #8A3A06;         }
   .res-urgency-val.cls-high { color: var(--danger);  }
 
   .res-urgency-labels {
@@ -1072,7 +1085,7 @@
   }
   .urgency-note.low  { background: var(--success-dim); color: var(--success); }
   .urgency-note.mid  { background: var(--accent-dim);  color: var(--accent-deep); }
-  .urgency-note.warn { background: #FEE9CC;             color: #92350A;            }
+  .urgency-note.warn { background: #FEE9CC;             color: #7A3609;            }
   .urgency-note.high { background: var(--danger-dim);  color: var(--danger);      }
 
   /* Resultado: bloco de valor por hora — antes e depois */
@@ -1263,24 +1276,65 @@
     .container { max-width: 560px; }
   }
 
+
+  /* ── Consentimento: botões com o mesmo peso ───────── */
+  .cookie-banner { visibility: hidden; transition: transform .3s var(--ease), visibility 0s linear .3s; }
+  .cookie-banner.show { visibility: visible; transition: transform .3s var(--ease), visibility 0s; }
+  .cookie-banner p { opacity: 1; color: #E8F0E8; font-size: .78rem; }
+  .cookie-banner .link-btn {
+    background: none; border: none; padding: 0; font: inherit; cursor: pointer;
+    color: #BFD0FF; text-decoration: underline; text-underline-offset: 2px;
+  }
+  .ck-actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .btn-cookie {
+    min-height: 44px; min-width: 96px; padding: 8px 18px;
+    background: transparent; color: #fff; border: 2px solid #fff;
+    border-radius: var(--radius-xs); font-family: var(--fb); font-size: .85rem; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+  }
+  .btn-cookie:hover { background: rgba(255,255,255,.14); }
+  .btn-cookie-light { color: var(--accent-deep); border-color: var(--accent-deep); }
+  .btn-cookie-light:hover { background: var(--accent-dim); }
+  .res-hero-label { opacity: 1 !important; color: #D9E6DC; }
+  .res-hero-sub { opacity: 1 !important; color: #DCE8DF; }
+  .priv-status { font-size: .85rem; color: var(--ink-2); margin: 4px 0 12px; }
+  .priv-actions { justify-content: flex-start; flex-wrap: wrap; }
+  .priv-actions .btn-cookie { flex: 1 1 140px; }
+
+  /* ── Diálogos: fechados saem da árvore de foco ────── */
+  .modal-overlay { visibility: hidden; transition: opacity var(--t) var(--ease), visibility 0s linear var(--t); }
+  .modal-overlay.open { visibility: visible; transition: opacity var(--t) var(--ease), visibility 0s; }
+  .modal-close { min-width: 44px; min-height: 44px; width: 44px; height: 44px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* ── Alvos de toque de 44 px (WCAG AAA 2.5.5) ─────── */
+  .lang-btn { min-height: 44px; min-width: 44px; padding: 4px 12px; display: inline-flex; align-items: center; justify-content: center; }
+  .lang-toggle { padding: 2px; }
+  .btn-clear { min-height: 44px; }
+  .est-toggle { min-height: 44px; display: inline-flex; align-items: center; }
+  .bonus-radio { min-height: 44px; }
+  .res-benef-toggle button { min-height: 44px; padding: 0 6px; }
+  .benef-hint button { min-height: 44px; padding: 0 6px; }
+  .bonus-toggle { min-height: 48px; }
+  .btn-copy, .btn-copy-msg, .btn-share-native, .btn-linkedin, .fb-btn.fb-text { min-height: 44px; }
+  input[type="range"] { height: 44px; background: transparent; border-radius: 0; }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 44px; border-radius: 99px;
+    background: linear-gradient(var(--border-2), var(--border-2)) center / 100% 5px no-repeat;
+  }
+  input[type="range"]::-webkit-slider-thumb { margin-top: 8px; }
+  input[type="range"]::-moz-range-track { height: 5px; background: var(--border-2); border-radius: 99px; }
+
+  /* ── Rodapé: alvos de toque de 44 px ──────────────── */
+  .site-footer { flex-wrap: wrap; }
+  .footer-actions { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+  .footer-story-btn { min-height: 44px; min-width: 44px; padding: 0 2px; margin-top: 0; }
+  .toggle-proposta-sub { color: var(--ink); }
   </style>
   <script>try{if(window.self!==window.top||/[?&]utm_medium=embed/.test(location.search))document.documentElement.classList.add('is-embed')}catch(e){document.documentElement.classList.add('is-embed')}</script>
-  <style>.is-embed .ad-banner,.is-embed .cookie-banner{display:none!important}.is-embed .sticky-bar.with-banner{bottom:0}</style>
+  <style>.is-embed .ad-slot,.is-embed .cookie-banner{display:none!important}.is-embed .sticky-bar.with-banner{bottom:0}</style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
-
-<!-- ── Banner topo ──────────────────────────────────── -->
-<!-- AdSense: após aprovação, substitua o conteúdo abaixo pela unidade gerada no painel -->
-<div class="container">
-  <div class="ad-banner" aria-hidden="true">
-    <span style="opacity:.35;font-size:.65rem">📢 ESPAÇO PUBLICITÁRIO</span>
-    <!-- Cole aqui sua unidade AdSense quando aprovado:
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXX" data-ad-slot="XXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    -->
-  </div>
-</div>
 
 <div class="container" id="main-content" role="main">
   <div class="topbar">
@@ -1317,10 +1371,10 @@
   </div>
 
   <!-- ── Cabeçalho ───────────────────────────────────── -->
-  <header class="header">
-    <h1><span data-i="h1a">Quanto você deve</span><br><em data-i="h1b" style="color:#B8860B">pedir nessa proposta?</em></h1>
+  <div class="header">
+    <h1><span data-i="h1a">Quanto você deve</span><br><em data-i="h1b" style="color:#5C4400">pedir nessa proposta?</em></h1>
     <p class="header-sub" data-i="sub">Chegue na negociação com um número e um argumento.</p>
-  </header>
+  </div>
 
   <!-- Modo oculto — padrão simples, pode ser alterado após resultado -->
   <input type="radio" name="modo" value="simples" checked style="display:none" />
@@ -1500,8 +1554,7 @@
       </div><!-- /benefit-list -->
     </div><!-- /benef-atual -->
 
-    <p class="help-text" data-i="helpText">
-      Não sabe o valor dos benefícios?
+    <p class="help-text"><span data-i="helpText">Não sabe o valor dos benefícios?</span>
       <a id="ajuda-atual" role="button" tabindex="0" data-i="seeEst">Ver estimativas</a>
     </p>
   </section>
@@ -1685,8 +1738,7 @@
       </div><!-- /benefit-list -->
     </div><!-- /benef-proposta -->
 
-    <p class="help-text" data-i="helpText">
-      Não sabe o valor dos benefícios?
+    <p class="help-text"><span data-i="helpText">Não sabe o valor dos benefícios?</span>
       <a id="ajuda-proposta" role="button" tabindex="0" data-i="seeEst">Ver estimativas</a>
     </p>
 
@@ -1706,16 +1758,14 @@
 </div>
 
 <!-- ── Banner de anúncio — entre inputs e resultado ── -->
-<div class="container" id="ad-meio" style="display:none; padding-top:16px;">
-  <div class="ad-banner" style="margin:0;" aria-hidden="true">
-    <span style="opacity:.35;font-size:.65rem">📢 ESPAÇO PUBLICITÁRIO</span>
-    <!-- Cole aqui sua unidade AdSense quando aprovado -->
-  </div>
+<div class="container ad-slot" id="ad-meio">
+  <p class="ad-label" data-i="adLabel">Publicidade</p>
+  <div class="ad-box"></div>
 </div>
 
 <!-- ── Resultado + cards auxiliares (mesmo container, sem gaps fantasma) ── -->
-<div class="container" id="results-area" style="padding-top:16px;">
-  <div id="resultado" role="region" aria-live="polite"></div>
+<div class="container" id="results-area" role="region" aria-label="Resultado" data-clarity-mask="True" style="padding-top:16px;">
+  <div id="resultado" aria-live="polite"></div>
   <div class="aux-card" id="card-share">
     <div class="aux-card-inner">
       <div class="aux-card-title" data-i="shareLabel">Manda para alguém que precisa disso 👀</div>
@@ -1754,15 +1804,80 @@
 <!-- ── Rodapé ──────────────────────────────────────────── -->
 <div class="container">
   <footer class="site-footer">
-    <button class="footer-story-btn" id="btn-story" data-i="footerStory">Como foi construído ✦</button>
+    <div class="footer-actions">
+      <button type="button" class="footer-story-btn" id="btn-story" data-i="footerStory">Como foi construído ✦</button>
+      <button type="button" class="footer-story-btn" id="btn-privacy" data-i="footerPrivacy">Privacidade</button>
+    </div>
     <span class="footer-line"><span data-i="footerCredit">Desenvolvido com</span> <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> · v1.0</span>
   </footer>
 </div>
 
-<!-- ── Banner LGPD ───────────────────────────────────── -->
-<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Aviso de privacidade">
-  <p>Usamos Google Analytics e Microsoft Clarity (medem cliques e rolagem e podem gravar a sessão de forma anônima) para melhorar a ferramenta, e o Google AdSense para anúncios, que pode usar cookies. Não pedimos nome nem e-mail. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política do Google</a> · <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft</a></p>
-  <button class="btn-cookie-ok" id="btn-cookie-ok">Entendi</button>
+<!-- ── Consentimento (LGPD) ──────────────────────────── -->
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-labelledby="ck-text">
+  <p><span id="ck-text" data-i="ckText">Com a sua permissão, uso Google Analytics e Microsoft Clarity para medir cliques e rolagem (o Clarity pode gravar a sessão, com os campos de valores ocultos) e o Google AdSense para anúncios. Essas ferramentas usam cookies. Sem permissão, nada disso é carregado. Não peço nome nem e-mail.</span> <button type="button" class="link-btn" id="btn-ck-more" data-i="ckMore">Como funciona</button></p>
+  <div class="ck-actions">
+    <button type="button" class="btn-cookie" id="btn-cookie-no" data-i="ckReject">Recusar</button>
+    <button type="button" class="btn-cookie" id="btn-cookie-ok" data-i="ckAccept">Aceitar</button>
+  </div>
+</div>
+
+<!-- ── Modal Privacidade ─────────────────────────────── -->
+<div class="modal-overlay" id="privacy-overlay" role="dialog" aria-modal="true" aria-labelledby="priv-title">
+  <div class="story-modal">
+    <div class="story-modal-header">
+      <h2 id="priv-title" data-i="privTitle">Privacidade</h2>
+      <button type="button" class="modal-close" id="priv-close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="story-modal-body" id="priv-body">
+      <div id="priv-body-pt">
+        <div class="story-section">
+          <h3>O que eu não coleto</h3>
+          <p>Nome, e-mail e os valores que você digita (salários, benefícios, proposta). A conta roda no seu navegador; esses números não são enviados para mim.</p>
+        </div>
+        <div class="story-section">
+          <h3>O que só liga se você aceitar</h3>
+          <p><strong>Google Analytics 4:</strong> mede visitas, cliques, rolagem, tipo de aparelho e localização aproximada. Segundo o Google, o GA4 não guarda endereço de IP; os sinais de publicidade ficam desligados. Usa cookies.</p>
+          <p><strong>Microsoft Clarity:</strong> mapas de calor e gravações da sessão, sem identificar você por nome, com os campos de valores configurados para ficarem ocultos. Usa cookies.</p>
+          <p><strong>Google AdSense:</strong> anúncios, quando houver. Usa cookies.</p>
+          <p>Se você recusar, essas três ferramentas nem são carregadas e a calculadora funciona igual. Uma coisa carrega sempre: as fontes de texto vêm do Google Fonts, e por isso o Google recebe seu endereço de IP ao entregar o arquivo.</p>
+        </div>
+        <div class="story-section">
+          <h3>Seus direitos (LGPD)</h3>
+          <p>Você pode pedir acesso, correção ou exclusão de dados e retirar o consentimento quando quiser, pelos botões abaixo. Como os dados de medição ficam com Google e Microsoft, os pedidos sobre eles seguem as políticas de cada um: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google</a> · <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft</a>. Para falar comigo, use o contato em <a href="https://erickjesus.com/?utm_source=quantopedir.com.br&amp;utm_medium=privacidade&amp;utm_campaign=contato" target="_blank" rel="noopener">erickjesus.com</a>.</p>
+        </div>
+        <div class="story-section">
+          <h3>Responsável</h3>
+          <p>Érick Jesus, São Paulo. Atualizado em 19/10/2026.</p>
+        </div>
+      </div>
+      <div id="priv-body-en" style="display:none">
+        <div class="story-section">
+          <h3>What I don’t collect</h3>
+          <p>Your name, email, or the values you type (salaries, benefits, offer). The math runs in your browser; those numbers are not sent to me.</p>
+        </div>
+        <div class="story-section">
+          <h3>What only turns on if you accept</h3>
+          <p><strong>Google Analytics 4:</strong> measures visits, clicks, scrolling, device type and approximate location. According to Google, GA4 doesn’t store IP addresses; advertising signals are off. Uses cookies.</p>
+          <p><strong>Microsoft Clarity:</strong> heatmaps and session recordings, without identifying you by name, with value fields set to be hidden. Uses cookies.</p>
+          <p><strong>Google AdSense:</strong> ads, when there are any. Uses cookies.</p>
+          <p>If you decline, these three tools are not even loaded and the calculator works the same. One thing always loads: the text fonts come from Google Fonts, so Google receives your IP address when it serves the file.</p>
+        </div>
+        <div class="story-section">
+          <h3>Your rights (Brazilian LGPD)</h3>
+          <p>You can ask for access, correction or deletion of data and withdraw consent at any time with the buttons below. Since measurement data stays with Google and Microsoft, requests about it follow each company’s policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google</a> · <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft</a>. To reach me, use the contact at <a href="https://erickjesus.com/?utm_source=quantopedir.com.br&amp;utm_medium=privacidade&amp;utm_campaign=contato" target="_blank" rel="noopener">erickjesus.com</a>.</p>
+        </div>
+        <div class="story-section">
+          <h3>Controller</h3>
+          <p>Érick Jesus, São Paulo, Brazil. Updated October 19, 2026.</p>
+        </div>
+      </div>
+      <p class="priv-status" id="priv-status" role="status"></p>
+      <div class="ck-actions priv-actions">
+        <button type="button" class="btn-cookie btn-cookie-light" id="priv-deny" data-i="privDeny">Recusar</button>
+        <button type="button" class="btn-cookie btn-cookie-light" id="priv-allow" data-i="privAllow">Aceitar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ── Modal "Como foi construído" ───────────────────── -->
@@ -1827,7 +1942,7 @@
         <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:5px;"><span class="story-tag">Product Design</span><span class="story-tag">Product Ownership</span><span class="story-tag">IA aplicada</span><span class="story-tag">Prototipagem</span></div>
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
           <a href="https://www.linkedin.com/in/erickjesus/" target="_blank" rel="noopener"
-             style="display:inline-flex;align-items:center;gap:6px;min-height:44px;background:#0A66C2;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
+             style="display:inline-flex;align-items:center;gap:6px;min-height:44px;background:#0A559F;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
           </a>
@@ -1859,7 +1974,7 @@
         <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:5px;"><span class="story-tag">Product Design</span><span class="story-tag">Product Ownership</span><span class="story-tag">Applied AI</span><span class="story-tag">Prototyping</span></div>
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
           <a href="https://www.linkedin.com/in/erickjesus/" target="_blank" rel="noopener"
-             style="display:inline-flex;align-items:center;gap:6px;min-height:44px;background:#0A66C2;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
+             style="display:inline-flex;align-items:center;gap:6px;min-height:44px;background:#0A559F;color:#fff;padding:8px 14px;border-radius:var(--radius-xs);font-size:.78rem;font-weight:600;text-decoration:none;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
           </a>
@@ -1976,6 +2091,14 @@ const TEXTOS = {
     resShareBtn: '↗ Compartilhar',
     footerStory: 'Como foi construído ✦',
     footerCredit: 'Desenvolvido com',
+    footerPrivacy: 'Privacidade',
+    adLabel: 'Publicidade',
+    ckText: 'Com a sua permissão, uso Google Analytics e Microsoft Clarity para medir cliques e rolagem (o Clarity pode gravar a sessão, com os campos de valores ocultos) e o Google AdSense para anúncios. Essas ferramentas usam cookies. Sem permissão, nada disso é carregado. Não peço nome nem e-mail.',
+    ckAccept: 'Aceitar', ckReject: 'Recusar', ckMore: 'Como funciona',
+    privTitle: 'Privacidade', privAllow: 'Aceitar', privDeny: 'Recusar',
+    privStatusGranted: 'Sua escolha atual: aceito.',
+    privStatusDenied: 'Sua escolha atual: recusado.',
+    privStatusNone: 'Você ainda não escolheu.',
     perMonth: '/mês',
     phSalAtual: 'ex: 5.000', phSalProposta: 'ex: 6.000',
   },
@@ -2032,6 +2155,14 @@ const TEXTOS = {
     resShareBtn: '↗ Share',
     footerStory: 'How it was built ✦',
     footerCredit: 'Built with',
+    footerPrivacy: 'Privacy',
+    adLabel: 'Advertising',
+    ckText: 'With your permission, I use Google Analytics and Microsoft Clarity to measure clicks and scrolling (Clarity may record the session, with value fields hidden) and Google AdSense for ads. These tools use cookies. Without permission, none of this loads. I don’t ask for your name or email.',
+    ckAccept: 'Accept', ckReject: 'Decline', ckMore: 'How it works',
+    privTitle: 'Privacy', privAllow: 'Accept', privDeny: 'Decline',
+    privStatusGranted: 'Your current choice: accepted.',
+    privStatusDenied: 'Your current choice: declined.',
+    privStatusNone: 'You haven’t chosen yet.',
     perMonth: '/month',
     phSalAtual: 'e.g. 5,000', phSalProposta: 'e.g. 6,000',
   }
@@ -2063,6 +2194,11 @@ function setLang(lang) {
     bodyEn.style.display = lang === 'en' ? '' : 'none';
   }
   if (storyTitle) storyTitle.textContent = lang === 'pt' ? 'Como foi construído' : 'How it was built';
+  const pvPt = document.getElementById('priv-body-pt'), pvEn = document.getElementById('priv-body-en');
+  if (pvPt && pvEn) { pvPt.style.display = lang === 'pt' ? '' : 'none'; pvEn.style.display = lang === 'en' ? '' : 'none'; }
+  document.querySelectorAll('.modal-close').forEach(b => b.setAttribute('aria-label', lang === 'pt' ? 'Fechar' : 'Close'));
+  document.getElementById('results-area')?.setAttribute('aria-label', lang === 'pt' ? 'Resultado' : 'Result');
+  if (typeof renderPrivStatus === 'function') renderPrivStatus();
 
   // Atualiza labels de urgência com a nova língua
   const formValEl = document.getElementById('form-urgency-val');
@@ -2582,8 +2718,8 @@ function setBtnCalcState(state) {
     btn.style.boxShadow = 'none';
   } else if (state === 'editando') {
     btn.innerHTML = `→ <span>${langAtual === 'pt' ? 'Recalcular' : 'Recalculate'}</span> <span class="arrow">↻</span>`;
-    btn.style.background = 'linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%)';
-    btn.style.color = '#D4A820';
+    btn.style.background = 'linear-gradient(140deg, #14301F 0%, #18412B 65%, #153824 100%)';
+    btn.style.color = '#FADF8A';
     btn.style.border = 'none';
     btn.style.boxShadow = '0 4px 20px rgba(45,106,79,.3)';
   }
@@ -2624,10 +2760,9 @@ function calcular() {
   const totalAtual  = salAtual + extrasAtual;
 
   // Mostra área de resultado
-  const adMeio      = document.getElementById('ad-meio');
   const resultsArea = document.getElementById('results-area');
-  if (adMeio)      adMeio.style.display = '';
   if (resultsArea) resultsArea.classList.add('active');
+  refreshAdMeio();
 
   if (!comProposta) {
     // ── CENÁRIO 1: Sem proposta ───────────────────────────
@@ -2904,7 +3039,7 @@ function renderResultado({ totalAtual, totalPropos, salAtual, extrasAtual,
   // Hero gradient e labels baseados no veredito
   const heroGradient = naoVale
     ? 'background: linear-gradient(140deg, #3D1A1A 0%, #7A2E2E 60%, #5C2020 100%);'
-    : 'background: linear-gradient(140deg, #1A3D2B 0%, #2D6A4F 65%, #1F5C3A 100%);';
+    : 'background: linear-gradient(140deg, #14301F 0%, #18412B 65%, #153824 100%);';
   const heroLabel = naoVale
     ? (pt ? 'Para essa proposta valer a pena, você precisaria pedir' : 'For this offer to be worth it, you\'d need to ask for')
     : (pt ? 'Sua pretensão salarial' : 'Your salary expectation');
@@ -3271,9 +3406,8 @@ function limpar() {
   // Fecha o card de proposta via toggle
   setToggleProposta(false);
   // Esconde banner intermediário e área de resultado
-  const adMeio = document.getElementById('ad-meio');
-  if (adMeio) adMeio.style.display = 'none';
   document.getElementById('results-area')?.classList.remove('active');
+  refreshAdMeio();
   ['card-share', 'card-feedback'].forEach(id => {
     document.getElementById(id)?.classList.remove('visible');
   });
@@ -3310,11 +3444,45 @@ function shake(el) {
   run(); el.focus();
 }
 
-// ── BANNER LGPD ──────────────────────────────────────────
-(function() {
-  const COOKIE_KEY = 'cookie_ok_v3'; // muda a versão para forçar re-exibição
+// ── ANÚNCIO: só aparece quando o Google devolve um anúncio ──
+let adFilled = false;
+function refreshAdMeio() {
+  const slot = document.getElementById('ad-meio');
+  if (!slot) return;
+  const hasResult = document.getElementById('results-area')?.classList.contains('active');
+  slot.classList.toggle('ad-on', !!(adFilled && hasResult));
+}
+window.initAds = function () {
+  const slot = document.getElementById('ad-meio');
+  const box  = slot?.querySelector('.ad-box');
+  if (!slot || !box || !AD_SLOTS.meio || box.firstChild) return;
+  const ins = document.createElement('ins');
+  ins.className = 'adsbygoogle';
+  ins.style.display = 'block';
+  ins.setAttribute('data-ad-client', AD_CLIENT);
+  ins.setAttribute('data-ad-slot', AD_SLOTS.meio);
+  ins.setAttribute('data-ad-format', 'auto');
+  ins.setAttribute('data-full-width-responsive', 'true');
+  box.appendChild(ins);
+  new MutationObserver(() => {
+    adFilled = ins.getAttribute('data-ad-status') === 'filled';
+    refreshAdMeio();
+  }).observe(ins, { attributes: true, attributeFilter: ['data-ad-status'] });
+  try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+};
+
+// ── CONSENTIMENTO (LGPD) ─────────────────────────────────
+const CONSENT_KEY = 'consent_v1';
+function readConsent() { try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; } }
+function renderPrivStatus() {
+  const el = document.getElementById('priv-status');
+  if (!el) return;
+  const c = readConsent();
+  const k = c === 'granted' ? 'privStatusGranted' : c === 'denied' ? 'privStatusDenied' : 'privStatusNone';
+  el.textContent = TEXTOS[langAtual][k];
+}
+(function () {
   const banner    = document.getElementById('cookie-banner');
-  const okBtn     = document.getElementById('btn-cookie-ok');
   const stickyBar = document.querySelector('.sticky-bar');
   if (!banner) return;
 
@@ -3324,30 +3492,52 @@ function shake(el) {
       const h = banner.offsetHeight;
       document.documentElement.style.setProperty('--cookie-h', h + 'px');
       stickyBar?.classList.add('with-banner');
-      // Aumenta padding do body para rodapé não ficar oculto
       document.body.style.paddingBottom = (80 + h) + 'px';
     });
   }
-
   function hideBanner() {
     banner.classList.remove('show');
     stickyBar?.classList.remove('with-banner');
     document.documentElement.style.removeProperty('--cookie-h');
     document.body.style.paddingBottom = '';
   }
-
-  try {
-    if (!localStorage.getItem(COOKIE_KEY)) {
-      setTimeout(showBanner, 1500);
-    }
-  } catch(e) {
-    setTimeout(showBanner, 1500);
+  function stopTrackers() {
+    // Retirada do consentimento sem recarregar a página (não perde o que a pessoa digitou)
+    window['ga-disable-G-CLQBP1DNEC'] = true;
+    window.__trk = false;
+    try { if (typeof window.clarity === 'function') window.clarity('consent', false); } catch (e) {}
+    try {
+      const host = location.hostname.split('.');
+      const domains = ['', location.hostname, '.' + location.hostname, host.length > 1 ? '.' + host.slice(-2).join('.') : ''];
+      document.cookie.split(';').forEach(c => {
+        const n = c.split('=')[0].trim();
+        if (/^(_ga|_gid|_gat|_clck|_clsk|CLID|ANONCHK|MR|MUID|SM|SRM_B|_gcl)/.test(n)) {
+          domains.forEach(d => { document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + (d ? '; domain=' + d : ''); });
+        }
+      });
+    } catch (e) {}
   }
-
-  okBtn?.addEventListener('click', () => {
+  function choose(v) {
+    const was = readConsent();
+    try { localStorage.setItem(CONSENT_KEY, v); } catch (e) {}
     hideBanner();
-    try { localStorage.setItem(COOKIE_KEY, '1'); } catch(e) {}
+    if (v === 'granted') { window['ga-disable-G-CLQBP1DNEC'] = false; loadTrackers(); }
+    else if (was === 'granted') stopTrackers();
+    renderPrivStatus();
+  }
+  window.chooseConsent = choose;
+
+  const c = readConsent();
+  if (c === 'granted') loadTrackers();
+  else if (c !== 'denied') setTimeout(showBanner, 1500);
+
+  document.getElementById('btn-cookie-ok')?.addEventListener('click', () => choose('granted'));
+  document.getElementById('btn-cookie-no')?.addEventListener('click', () => choose('denied'));
+  document.getElementById('priv-allow')?.addEventListener('click', () => choose('granted'));
+  document.getElementById('priv-deny')?.addEventListener('click', () => {
+    choose('denied');
   });
+  renderPrivStatus();
 })();
 
 // ── BOTÃO CALCULAR DE NOVO ───────────────────────────────
@@ -3360,38 +3550,56 @@ document.getElementById('btn-restart')?.addEventListener('click', () => {
   trackEvent('click_calcular_denovo');
 });
 
-// ── MODAL "COMO FOI FEITO" ───────────────────────────────
-const storyOverlay = document.getElementById('story-overlay');
+// ── DIÁLOGOS: foco preso, Esc fecha, foco volta ao botão ──
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+let dlgOpen = null, dlgReturn = null;
+function openDialog(el, trigger) {
+  if (!el) return;
+  dlgReturn = trigger || document.activeElement;
+  dlgOpen = el;
+  el.classList.add('open');
+  requestAnimationFrame(() => (el.querySelector('.modal-close') || el.querySelector(FOCUSABLE))?.focus());
+}
+function closeDialog() {
+  if (!dlgOpen) return;
+  dlgOpen.classList.remove('open');
+  dlgOpen = null;
+  const visivel = dlgReturn && dlgReturn.getClientRects && dlgReturn.getClientRects().length && getComputedStyle(dlgReturn).visibility !== 'hidden';
+  (visivel ? dlgReturn : document.getElementById('btn-privacy'))?.focus();
+  dlgReturn = null;
+}
+document.addEventListener('keydown', e => {
+  if (!dlgOpen) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeDialog(); return; }
+  if (e.key !== 'Tab') return;
+  const items = [...dlgOpen.querySelectorAll(FOCUSABLE)].filter(x => x.offsetParent !== null);
+  if (!items.length) return;
+  const first = items[0], last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+[['story-overlay', 'story-close'], ['modal-overlay', 'modal-close'], ['privacy-overlay', 'priv-close']].forEach(([ov, cl]) => {
+  const o = document.getElementById(ov);
+  document.getElementById(cl)?.addEventListener('click', closeDialog);
+  o?.addEventListener('click', e => { if (e.target === o) closeDialog(); });
+});
 
-document.getElementById('btn-story')?.addEventListener('click', () => {
-  storyOverlay?.classList.add('open');
+document.getElementById('btn-story')?.addEventListener('click', e => {
+  openDialog(document.getElementById('story-overlay'), e.currentTarget);
   trackEvent('click_como_foi_feito');
 });
+function openPrivacy(e) { renderPrivStatus(); openDialog(document.getElementById('privacy-overlay'), e.currentTarget); }
+document.getElementById('btn-privacy')?.addEventListener('click', openPrivacy);
+document.getElementById('btn-ck-more')?.addEventListener('click', openPrivacy);
 
-document.getElementById('story-close')?.addEventListener('click', () => {
-  storyOverlay?.classList.remove('open');
-});
-
-storyOverlay?.addEventListener('click', e => {
-  if (e.target === storyOverlay) storyOverlay.classList.remove('open');
-});
-
-// ── MODAL DE ESTIMATIVAS ─────────────────────────────────
-const overlay = document.getElementById('modal-overlay');
-function openModal()  { overlay.classList.add('open');    trackEvent('click_estimativa'); }
-function closeModal() { overlay.classList.remove('open'); }
-
-document.getElementById('ajuda-atual')?.addEventListener('click', openModal);
-document.getElementById('ajuda-proposta')?.addEventListener('click', openModal);
-document.getElementById('ajuda-atual')?.addEventListener('keydown', e => e.key === 'Enter' && openModal());
-document.getElementById('ajuda-proposta')?.addEventListener('keydown', e => e.key === 'Enter' && openModal());
-document.getElementById('modal-close')?.addEventListener('click', closeModal);
-overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeModal();
-    storyOverlay?.classList.remove('open');
-  }
+function openModal(e) {
+  openDialog(document.getElementById('modal-overlay'), e && e.currentTarget);
+  trackEvent('click_estimativa');
+}
+['ajuda-atual', 'ajuda-proposta'].forEach(id => {
+  const el = document.getElementById(id);
+  el?.addEventListener('click', openModal);
+  el?.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(e); } });
 });
 
 </script>
