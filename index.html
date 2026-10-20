@@ -3602,6 +3602,8 @@ function openModal(e) {
   el?.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(e); } });
 });
 
+// Idioma pela URL (?lang=en ou ?lang=pt): usado pelo artigo em ingles do erickjesus.com
+try { const l = new URLSearchParams(location.search).get('lang'); if (l === 'en' || l === 'pt') setLang(l); } catch (e) {}
 </script>
 </body>
 </html>
